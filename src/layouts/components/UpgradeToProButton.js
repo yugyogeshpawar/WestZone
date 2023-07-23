@@ -36,25 +36,6 @@ const BuyNowButton = () => {
       className='upgrade-to-pro-button mui-fixed'
       sx={{ right: theme => theme.spacing(20), bottom: theme => theme.spacing(10), zIndex: 11, position: 'fixed' }}
     >
-      <Button
-        component='a'
-        target='_blank'
-        variant='contained'
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
-        ref={e => setReferenceElement(e)}
-        href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
-        sx={{
-          backgroundColor: '#ff3e1d',
-          boxShadow: '0 1px 20px 1px #ff3e1d',
-          '&:hover': {
-            boxShadow: 'none',
-            backgroundColor: '#e6381a'
-          }
-        }}
-      >
-        Upgrade To Pro
-      </Button>
       <Fade in={open} timeout={700}>
         <Box
           style={styles.popper}
@@ -65,13 +46,6 @@ const BuyNowButton = () => {
           sx={{ pb: 4, minWidth: theme => (theme.breakpoints.down('sm') ? 400 : 300) }}
         >
           <Paper elevation={9} sx={{ borderRadius: 1, overflow: 'hidden' }}>
-            <a
-              target='_blank'
-              rel='noreferrer'
-              href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
-            >
-              <img width='100%' alt='materio-pro-banner' src='/images/misc/materio-pro-banner.png' />
-            </a>
             <CardContent>
               <Typography sx={{ mb: 4 }} variant='h6'>
                 Materio - React Admin Template
@@ -88,7 +62,7 @@ const BuyNowButton = () => {
                 sx={{ mr: 4 }}
                 target='_blank'
                 variant='contained'
-                href='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/landing/'
+                href='#/'
               >
                 Demo
               </Button>
@@ -96,7 +70,7 @@ const BuyNowButton = () => {
                 component='a'
                 target='_blank'
                 variant='outlined'
-                href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
+                href='#'
               >
                 Download
               </Button>

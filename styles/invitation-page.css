@@ -1,0 +1,9 @@
+/* styles/invitation-page.css */
+
+/* Hide the back button in desktop view */
+@media (min-width: 600px) {
+    .back-button {
+      display: none;
+    }
+  }
+  

@@ -1,12 +1,11 @@
 import React from 'react'
 import { Typography, Card, CardContent, Button, Rating, Box, Avatar, Grid } from '@mui/material'
 import SafetyIcon from '@mui/icons-material/Shield'
-import { useTheme, useMediaQuery } from '@mui/material';
-
+import { useTheme, useMediaQuery } from '@mui/material'
 
 const AppDownloadPage = () => {
-  const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <div style={{ padding: isMobileView ? '0px' : '16px' }}>

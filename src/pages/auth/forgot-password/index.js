@@ -4,25 +4,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Form, Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import useAuth from 'src/@core/hooks/useAuth'
-import {
-  Box,
-  Button,
-  Checkbox,
-  TextField,
-  Typography,
-  IconButton,
-  CardContent,
-  OutlinedInput,
-  InputAdornment,
-  styled,
-  useTheme,
-  InputLabel
-} from '@mui/material'
+import axios from '../../../utils/axios'
+import { Box, Button, Typography, CardContent, OutlinedInput, styled, InputLabel } from '@mui/material'
 import MuiCard from '@mui/material/Card'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { setSession } from 'src/utils/jwt'
 import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -46,11 +31,9 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
   }
 }))
 
-const LoginPage = () => {
-  const { login } = useAuth()
+const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const theme = useTheme()
   const router = useRouter()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
 
@@ -58,13 +41,8 @@ const LoginPage = () => {
     setSession(null)
   }, [])
 
-  const handleMouseDownPassword = event => {
-    event.preventDefault()
-  }
-
   const validationSchema = Yup.object().shape({
-    mobile: Yup.string().required('Mobile is required'),
-    password: Yup.string().required('Password is required')
+    email: Yup.string().email('Invalid email').required('Email is required')
   })
 
   const handleSubmit = async values => {
@@ -72,7 +50,7 @@ const LoginPage = () => {
     setError(null)
 
     try {
-      const response = await login(values.mobile, values.password)
+      const response = await axios.post('/api/auth/forgot-password', values.email)
       setLoading(false)
       router.push('/dashboard')
     } catch (error) {
@@ -109,76 +87,25 @@ const LoginPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5, textAlign: 'center' }}>
-              Welcome to {themeConfig.templateName}!
+              Forgot your password?
             </Typography>
             <Typography variant='body2' style={{ textAlign: 'center' }}>
-              Please sign-in to your account and start the Journey
+              Enter your email to reset your password
             </Typography>
           </Box>
-          <Formik
-            initialValues={{ mobile: '', password: '', showPassword: false }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
+          <Formik initialValues={{ email: '' }} validationSchema={validationSchema} onSubmit={handleSubmit}>
             {({ isSubmitting, values, setFieldValue }) => (
               <Form noValidate autoComplete='off'>
                 <Box sx={{ mb: 4 }}>
-                  <InputLabel htmlFor='mobile'>Mobile</InputLabel>
-                  <Field as={OutlinedInput} autoFocus fullWidth id='mobile' name='mobile' />
+                  <InputLabel htmlFor='email'>Email</InputLabel>
+                  <Field as={OutlinedInput} autoFocus fullWidth id='email' name='email' />
                   <ErrorMessage
-                    name='mobile'
+                    name='email'
                     component={Typography}
                     color='error'
                     variant='body2'
                     style={{ marginBottom: '20px' }}
                   />
-                </Box>
-                <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-                <Field
-                  as={OutlinedInput}
-                  fullWidth
-                  id='auth-login-password'
-                  name='password'
-                  type={values.showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onClick={() => setFieldValue('showPassword', !values.showPassword)}
-                        onMouseDown={handleMouseDownPassword}
-                        aria-label='toggle password visibility'
-                      >
-                        {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                <ErrorMessage
-                  name='password'
-                  component={Typography}
-                  color='error'
-                  variant='body2'
-                  style={{ marginBottom: '20px' }}
-                />
-
-                {error && (
-                  <Typography variant='body2' color='error'>
-                    {error}
-                  </Typography>
-                )}
-                <Box
-                  sx={{
-                    mb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <FormControlLabel control={<Checkbox />} label='Remember Me' />
-                  <Link passHref href='/auth/forgot-password'>
-                    <LinkStyled>Forgot Password?</LinkStyled>
-                  </Link>
                 </Box>
                 <Button
                   fullWidth
@@ -188,15 +115,15 @@ const LoginPage = () => {
                   type='submit'
                   disabled={isSubmitting}
                 >
-                  {loading ? 'Logging in...' : 'Login'}
+                  {loading ? 'Sending reset link...' : 'Reset password'}
                 </Button>
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Typography variant='body2' sx={{ marginRight: 2 }}>
-                    New on our platform?
+                    Remember your credentials?
                   </Typography>
                   <Typography variant='body2'>
-                    <Link passHref href='/auth/register'>
-                      <LinkStyled>Create an account</LinkStyled>
+                    <Link passHref href='/auth/login'>
+                      <LinkStyled>Login</LinkStyled>
                     </Link>
                   </Typography>
                 </Box>
@@ -220,6 +147,6 @@ const LoginPage = () => {
   )
 }
 
-LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
+ForgotPassword.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default LoginPage
+export default ForgotPassword

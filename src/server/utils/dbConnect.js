@@ -1,20 +1,20 @@
 // utils/dbConnect.js
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const connection = {};
+const connection = {}
 
 async function dbConnect() {
   if (connection.isConnected) {
-    return;
+    return
   }
 
   const db = await mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  });
+  })
 
-  connection.isConnected = db.connections[0].readyState;
+  connection.isConnected = db.connections[0].readyState
 }
 
-module.exports = dbConnect;
+module.exports = dbConnect

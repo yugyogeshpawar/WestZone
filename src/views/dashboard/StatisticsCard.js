@@ -57,7 +57,7 @@ const renderStats = () => {
             backgroundColor: `${item.color}.main`
           }}
         >
-          {item.icon}, 
+          {item.icon},
         </Avatar>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant='caption'>{item.title}</Typography>

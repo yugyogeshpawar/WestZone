@@ -1,11 +1,8 @@
-import { useContext } from 'react';
-import { AuthContext } from '../context/JWTContext';
-// import { AuthContext } from '../contexts/FirebaseContext';
-// import { AuthContext } from '../contexts/AwsCognitoContext';
-// import { AuthContext } from '../contexts/Auth0Context';
+import { useContext } from 'react'
+import { AuthContext } from '../context/JWTContext'
 
 // ----------------------------------------------------------------------
 
-const useAuth = () => useContext(AuthContext);
+const useAuth = () => useContext(AuthContext)
 
-export default useAuth;
+export default useAuth

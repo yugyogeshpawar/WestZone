@@ -2,11 +2,11 @@ import React from 'react'
 import { Typography, IconButton, Card, CardContent, CardActions, Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SubjectIcon from '@mui/icons-material/Subject'
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material'
 
 const MyProjects = () => {
-  const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
 
   // Sample project data (you can replace this with your actual project data)
   const projects = [

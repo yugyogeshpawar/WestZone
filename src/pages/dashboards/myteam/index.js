@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material'
 import {
   Typography,
   Tab,
@@ -15,9 +15,8 @@ import {
 } from '@mui/material'
 
 const MyTeam = () => {
-
-  const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
 
   // Sample data for tables (you can replace this with your actual data)
   const teamMembers = [
@@ -25,13 +24,9 @@ const MyTeam = () => {
     { id: 2, name: 'Jane Smith', role: 'Developer' }
   ]
 
-  const teamLeads = [
-    { id: 1, name: 'Michael Johnson', role: 'Team Lead' }
-  ]
+  const teamLeads = [{ id: 1, name: 'Michael Johnson', role: 'Team Lead' }]
 
-  const interns = [
-    { id: 1, name: 'Emily Brown', role: 'Intern' }
-  ]
+  const interns = [{ id: 1, name: 'Emily Brown', role: 'Intern' }]
 
   // State for the active tab
   const [activeTab, setActiveTab] = useState(0)

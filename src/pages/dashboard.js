@@ -1,8 +1,7 @@
-import { useContext, useEffect } from 'react'
-import { AuthProvider, AuthContext } from 'src/@core/context/JWTContext';
-import LoadingScreen from 'src/@core/components/LoadingScreen';
-import useAuth from 'src/@core/hooks/useAuth';
-
+import { useContext, useEffect, useState } from 'react'
+import { AuthProvider, AuthContext } from 'src/@core/context/JWTContext'
+import LoadingScreen from 'src/@core/components/LoadingScreen'
+import useAuth from 'src/@core/hooks/useAuth'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -27,6 +26,8 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
+import TopUpPage from 'src/pages/dashboards/recharge'
+
 
 // Styled Box component
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -35,22 +36,30 @@ const StyledBox = styled(Box)(({ theme }) => ({
   }
 }))
 
-
-
 const Dashboard = () => {
-  const { user } = useAuth();
+
+  const { user } = useAuth()
   const authContext = useContext(AuthContext)
+  const [topUpOpen, setTopUpOpen] = useState(false)
+
   if (!authContext.isInitialized || !authContext.isAuthenticated) {
-    return <LoadingScreen />; // Replace with your loading component
+    return <LoadingScreen /> // Replace with your loading component
   }
 
+  const handleTopUpOpen = () => {
+    setTopUpOpen(true)
+  }
+
+  const handleTopUpClose = () => {
+    setTopUpOpen(false)
+  }
 
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={8}>
+        {/* <Grid item xs={12} md={8}>
           <IntroVideo />
-        </Grid>
+        </Grid> */}
         <Grid item md={8} xs={12}>
           <CardContent
             sx={{
@@ -72,7 +81,7 @@ const Dashboard = () => {
                 <Typography variant='h6'>Rupee</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <Button variant='contained'>Recharge</Button>
+                <Button variant='contained' onClick={handleTopUpOpen}>Recharge</Button>
                 <Button variant='contained' sx={{ ml: 2 }}>
                   Withdraw
                 </Button>
@@ -106,11 +115,15 @@ const Dashboard = () => {
         <Grid item xs={4} md={3}>
           <SimpleCard title='Check Ins' icon={FactCheckIcon} link='/dashboards/check-ins' />
         </Grid>
-
+        <Grid item xs={4} md={3}>
+          <SimpleCard title='Products' icon={FactCheckIcon} link='/dashboards/products' />
+        </Grid>
+        <div style={{ width: '100%' }} ></div>
         <Grid>
           <News />
         </Grid>
       </Grid>
+      <TopUpPage open={topUpOpen} onClose={handleTopUpClose} />
     </ApexChartWrapper>
   )
 }

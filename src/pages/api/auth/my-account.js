@@ -8,11 +8,10 @@ export default async (req, res) => {
   if (req.method === 'GET') {
     try {
       // Get the token from the Authorization header
-      console.log(req.headers);
       const token = req.headers.authorization.split(' ')[1]
 
       // Verify and decode the token
-      const decoded = jwt.verify(token, 'your-secret-key') // Replace 'your-secret-key' with your actual secret key
+      const decoded = jwt.verify(token, process.env.JWT_SECRET) // Replace 'your-secret-key' with your actual secret key
 
       // Get the user information by ID
       const user = await User.findById(decoded.userId) // Use 'findById' to find the user by ID

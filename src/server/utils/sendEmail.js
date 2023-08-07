@@ -1,0 +1,24 @@
+import nodemailer from 'nodemailer'
+
+export default async function sendEmail(to, url, txt) {
+  let transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_EMAIL, // generated ethereal user
+      pass: process.env.SMTP_PASSWORD // generated ethereal password
+    }
+  })
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: `"${process.env.FROM_NAME}" <${process.env.FROM_EMAIL}>`, // sender address
+    to: to, // list of receivers
+    subject: 'Password Recovery', // Subject line
+    text: txt, // plain text body
+    html: `<b>Please click on the following link, or paste this into your browser to complete the process:</b><a href=${url}>${url}</a>` // html body
+  })
+
+  console.log('Message sent: %s', info.messageId)
+}

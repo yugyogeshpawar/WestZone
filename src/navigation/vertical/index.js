@@ -66,10 +66,16 @@ const navigation = () => {
       title: 'Check ins',
       icon: CheckDecagramOutline,
       path: '/dashboards/check-ins'
-    }, {
+    },
+    {
       title: 'Products',
       icon: CheckDecagramOutline,
       path: '/dashboards/products'
+    },
+    {
+      title: 'History',
+      icon: CheckDecagramOutline,
+      path: '/dashboards/history'
     },
     {
       sectionTitle: 'User'
@@ -77,17 +83,17 @@ const navigation = () => {
     {
       title: 'Account',
       icon: AccountCog,
-      path: '/account',
+      path: '/account'
     },
     {
       title: 'Profile',
       icon: AccountCircle,
-      path: '/pages/login',
+      path: '/pages/login'
     },
     {
       title: 'Settings',
       icon: Cog,
-      path: '/pages/login',
+      path: '/pages/login'
     },
     {
       sectionTitle: 'Pages'

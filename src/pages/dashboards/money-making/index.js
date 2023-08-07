@@ -1,24 +1,22 @@
-import React from 'react';
-import { Typography } from '@mui/material';
-import { useTheme, useMediaQuery } from '@mui/material';
-
+import React from 'react'
+import { Typography } from '@mui/material'
+import { useTheme, useMediaQuery } from '@mui/material'
 
 // Import the JSON content
-import moneyMakingContent from '../money_making_content.json';
+import moneyMakingContent from '../money_making_content.json'
 
 const MoneyMakingPage = () => {
-  const { title, description, images } = moneyMakingContent;
-  const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const { title, description, images } = moneyMakingContent
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <div style={{ padding: isMobileView ? '0px' : '16px' }}>
       {/* Title */}
-      <Typography variant="h4">{title}</Typography>
+      <Typography variant='h4'>{title}</Typography>
 
       {/* Description */}
-      <Typography variant="body1">{description}</Typography>
+      <Typography variant='body1'>{description}</Typography>
 
       {/* Images */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
@@ -32,7 +30,7 @@ const MoneyMakingPage = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MoneyMakingPage;
+export default MoneyMakingPage

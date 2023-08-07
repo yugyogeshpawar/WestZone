@@ -1,6 +1,5 @@
 import { createContext, useEffect, useReducer } from 'react'
 import PropTypes from 'prop-types'
-// utils
 import axios from '../../utils/axios.js'
 import { isValidToken, setSession } from '../../utils/jwt'
 
@@ -15,6 +14,7 @@ const initialState = {
 const handlers = {
   INITIALIZE: (state, action) => {
     const { isAuthenticated, user } = action.payload
+
     return {
       ...state,
       isAuthenticated,
@@ -67,11 +67,12 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = window.localStorage.getItem('accessToken')
 
         if (accessToken) {
           setSession(accessToken)
           const headers = { Authorization: `Bearer ${accessToken}` }
+
           const response = await axios.get(`/api/auth/my-account`, {
             headers
           })

@@ -60,11 +60,10 @@ const RegisterPage = () => {
     email: '',
     password: '',
     showPassword: false,
-    sponsorId: '',
-  });
+    sponsorId: ''
+  })
 
-  const [error, setError] = useState(null);
-
+  const [error, setError] = useState(null)
 
   // ** Hook
   const theme = useTheme()
@@ -81,42 +80,40 @@ const RegisterPage = () => {
     event.preventDefault()
   }
 
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async e => {
+    e.preventDefault()
 
     if (!values.mobile || !/^\d{10}$/.test(values.mobile)) {
-      setError('Please enter a valid 10-digit mobile number.');
+      setError('Please enter a valid 10-digit mobile number.')
 
-      return;
+      return
     }
 
     // Username validation
     if (!values.username) {
-      setError('Username is required.');
+      setError('Username is required.')
 
-      return;
+      return
     }
 
     if (!values.email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      setError('Please enter a valid email address.');
+      setError('Please enter a valid email address.')
 
-      return;
+      return
     }
 
     if (!values.password || values.password.length < 8) {
-      setError('Password must be at least 8 characters long.');
-      
-      return;
-    }
+      setError('Password must be at least 8 characters long.')
 
+      return
+    }
 
     // Send a POST request to the registration endpoint
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           mobileNumber: values.mobile,
@@ -124,23 +121,22 @@ const RegisterPage = () => {
           email: values.email,
           password: values.password,
           sponsorId: values.sponsorId
-        }),
-      });
-      console.log(response);
+        })
+      })
 
       if (!response.ok) {
         // Handle error response
-        const errorData = await response.json();
-        setError(errorData.message || 'Registration failed');
-        
-        return;
+        const errorData = await response.json()
+        setError(errorData.message || 'Registration failed')
+
+        return
       }
-      alert('Registration successful!');
+      alert('Registration successful!')
     } catch (err) {
       // Handle other errors
-      setError('An error occurred during registration');
+      setError('An error occurred during registration')
     }
-  };
+  }
 
   return (
     <Box className='content-center'>

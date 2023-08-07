@@ -1,6 +1,6 @@
-import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import React from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 
 const LoadingComponent = () => {
   return (
@@ -18,12 +18,12 @@ const LoadingComponent = () => {
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(5px)',
-        zIndex: 1000,
+        zIndex: 1000
       }}
     >
       <CircularProgress sx={{ color: '#ffffff' }} />
     </Box>
-  );
-};
+  )
+}
 
-export default LoadingComponent;
+export default LoadingComponent

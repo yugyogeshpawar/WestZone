@@ -35,12 +35,12 @@ export default async (req, res) => {
     }
 
     // Sign the token with a secret key to generate the JWT.
-    const accessToken = jwt.sign(payload, 'your-secret-key', {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '1h' // Set the token expiration time (e.g., 1 hour).
     })
 
     // Return the JWT in the response.
-    res.status(200).json({ message: 'User logged in successfully', accessToken })
+    res.status(200).json({ message: 'User logged in successfully', accessToken, user })
   } else {
     res.status(400).json({ message: 'Only POST requests allowed' })
   }

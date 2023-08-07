@@ -1,66 +1,66 @@
-import dbConnect from '../../../server/utils/dbConnect';
-import Product from '../../../server/models/product.model';
+import dbConnect from '../../../server/utils/dbConnect'
+import Product from '../../../server/models/product.model'
 
 export default async (req, res) => {
-  await dbConnect();
+  await dbConnect()
 
   const {
     query: { id },
-    method,
-  } = req;
+    method
+  } = req
 
   switch (method) {
     case 'GET':
       if (id) {
         try {
-          const product = await Product.findById(id);
+          const product = await Product.findById(id)
           if (!product) {
-            return res.status(404).json({ error: 'Product not found' });
+            return res.status(404).json({ error: 'Product not found' })
           }
-          res.status(200).json(product);
+          res.status(200).json(product)
         } catch (error) {
-          res.status(500).json({ error: 'Error fetching product' });
+          res.status(500).json({ error: 'Error fetching product' })
         }
       } else {
         try {
-          const products = await Product.find({});
-          res.status(200).json(products);
+          const products = await Product.find({})
+          res.status(200).json(products)
         } catch (error) {
-          res.status(500).json({ error: 'Error fetching products' });
+          res.status(500).json({ error: 'Error fetching products' })
         }
       }
-      break;
+      break
     case 'PUT':
       try {
         const product = await Product.findByIdAndUpdate(id, req.body, {
           new: true,
-          runValidators: true,
-        });
+          runValidators: true
+        })
 
         if (!product) {
-          return res.status(404).json({ error: 'Product not found' });
+          return res.status(404).json({ error: 'Product not found' })
         }
 
-        res.status(200).json({ message: 'Product updated successfully', product });
+        res.status(200).json({ message: 'Product updated successfully', product })
       } catch (error) {
-        res.status(500).json({ error: 'Error updating product' });
+        res.status(500).json({ error: 'Error updating product' })
       }
-      break;
+      break
     case 'DELETE':
       try {
-        const deletedProduct = await Product.findByIdAndRemove(id);
+        const deletedProduct = await Product.findByIdAndRemove(id)
 
         if (!deletedProduct) {
-          return res.status(404).json({ error: 'Product not found' });
+          return res.status(404).json({ error: 'Product not found' })
         }
 
-        res.status(200).json({ message: 'Product deleted successfully' });
+        res.status(200).json({ message: 'Product deleted successfully' })
       } catch (error) {
-        res.status(500).json({ error: 'Error deleting product' });
+        res.status(500).json({ error: 'Error deleting product' })
       }
-      break;
+      break
     default:
-      res.status(405).end(); // Method Not Allowed
-      break;
+      res.status(405).end() // Method Not Allowed
+      break
   }
-};
+}

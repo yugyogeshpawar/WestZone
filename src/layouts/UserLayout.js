@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 // ** MUI Imports
@@ -23,11 +23,8 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 const UserLayout = ({ children }) => {
   const router = useRouter()
-  // ** Hooks
 
-  const authContext = useContext(AuthContext);
-
-  console.log(authContext)
+  const authContext = useContext(AuthContext)
 
   if (!authContext.isInitialized) {
     return <LoadingScreen /> // Replace with your loading component
@@ -38,11 +35,12 @@ const UserLayout = ({ children }) => {
   }
 
   if (authContext.isAuthenticated == 2) {
-    console.log('redirecting to auth/login')
     router.push('/auth/login')
+
     return <LoadingScreen />
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { settings, saveSettings } = useSettings()
 
   /**
@@ -53,6 +51,7 @@ const UserLayout = ({ children }) => {
    *  to know more about what values can be passed to this hook.
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
 
   // useEffect(() => {

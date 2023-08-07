@@ -57,21 +57,10 @@ const BuyNowButton = () => {
               <Typography sx={{ mb: 4 }} variant='body2'>
                 Click on below buttons to explore PRO version.
               </Typography>
-              <Button
-                component='a'
-                sx={{ mr: 4 }}
-                target='_blank'
-                variant='contained'
-                href='#/'
-              >
+              <Button component='a' sx={{ mr: 4 }} target='_blank' variant='contained' href='#/'>
                 Demo
               </Button>
-              <Button
-                component='a'
-                target='_blank'
-                variant='outlined'
-                href='#'
-              >
+              <Button component='a' target='_blank' variant='outlined' href='#'>
                 Download
               </Button>
             </CardContent>

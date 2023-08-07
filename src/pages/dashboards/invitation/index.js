@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Typography, Button, IconButton, Card, CardContent, Snackbar } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import QRCode from 'qrcode.react'
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material'
 
 const InvitationPage = () => {
-  const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
   const invitationCode = 'ABC123'
   const invitationLink = 'https://example.com/invitation'
 

@@ -58,10 +58,7 @@ const App = props => {
     } else {
       NProgress.done()
     }
-
-    // if user is not authenticated and current path includes '/auth/', then redirect to /auth/login
-
-  }, [authContext.isInitialized, authContext.isAuthenticated, router]) // Dependencies added here
+  }, [authContext.isInitialized, router]) // Dependencies added here
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)

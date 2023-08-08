@@ -1,5 +1,5 @@
-import dbConnect from '../../../server/utils/dbConnect'
-import Product from '../../../server/models/product.model'
+import dbConnect from 'src/server/utils/dbConnect'
+import Product from 'src/server/models/product.model'
 
 export default async (req, res) => {
   await dbConnect()

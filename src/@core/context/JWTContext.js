@@ -77,6 +77,7 @@ function AuthProvider({ children }) {
             headers
           })
           const { user } = response.data
+          console.log(user)
 
           dispatch({
             type: 'INITIALIZE',

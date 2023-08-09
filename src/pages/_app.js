@@ -2,6 +2,7 @@
 import Head from 'next/head'
 import { Router, useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
+import { TopUpProvider } from 'src/@core/context/TopUpContext';
 
 // ** Loader Import
 import NProgress from 'nprogress'
@@ -71,15 +72,19 @@ const App = props => {
         <meta name='keywords' content={`${themeConfig.templateName}.`} />
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
+
       <AuthProvider>
         <SettingsProvider>
-          <SettingsConsumer>
-            {({ settings }) => {
-              return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
-            }}
-          </SettingsConsumer>
+          <TopUpProvider>
+            <SettingsConsumer>
+              {({ settings }) => {
+                return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+              }}
+            </SettingsConsumer>
+          </TopUpProvider>
         </SettingsProvider>
       </AuthProvider>
+
     </CacheProvider>
   )
 }

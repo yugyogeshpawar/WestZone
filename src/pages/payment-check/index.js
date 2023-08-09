@@ -4,6 +4,7 @@ import { CircularProgress } from '@mui/material';
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 const PaymentCheck = () => {
+
     const [partnerId, setPartnerId] = useState(null);
     const [transactionStatus, setTransactionStatus] = useState(null);
 
@@ -26,12 +27,13 @@ const PaymentCheck = () => {
                 }
                 if (response.status == 404) {
                     setTransactionStatus('failed');
-                    window.location.href = "https://www.westzone.store";
+                    window.open("https://www.westzone.store", "_blank");
                 }
 
             } catch (error) {
                 setTransactionStatus('failed');
                 console.error('Error fetching the latest transaction: ', error);
+                window.open("https://www.westzone.store", "_blank");
             }
         };
 
@@ -56,7 +58,7 @@ const PaymentCheck = () => {
                 setTransactionStatus('successful');
             } else {
                 setTransactionStatus('failed');
-                window.location.href = "https://www.westzone.store";
+                window.open("https://www.westzone.store", "_blank");
             }
         } catch (error) {
             console.error('Error verifying the payment: ', error);
@@ -78,6 +80,7 @@ const PaymentCheck = () => {
             });
             if (response.status !== 200) {
                 setTransactionStatus('failed');
+                window.open("https://www.westzone.store", "_blank");
             }
 
         } catch (error) {
@@ -90,10 +93,10 @@ const PaymentCheck = () => {
             {transactionStatus === 'successful' ? (
                 <>
                     <p>Your transaction was successful!</p>
-                    <a href="https://www.westzone.store" target="_blank" rel="noopener noreferrer">Go to Westzone Store</a>
+                    <p>Please close this popup window.</p>
                 </>
             ) : transactionStatus === 'failed' ? (
-                <p>Sorry, there was an issue with your transaction.</p>
+                <><p style={{ color: 'red' }}>Sorry, there was an issue with your transaction.</p><h3>Please close this popup window.</h3></>
             ) : (
                 <CircularProgress />
             )}

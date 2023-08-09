@@ -11,8 +11,11 @@ import {
   Modal,
   Box,
   TextField,
-  Snackbar
+  Snackbar,
+  Grid,
+  useMediaQuery
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import MuiAlert from '@mui/material/Alert'
 
 function AdminProduct() {
@@ -22,6 +25,9 @@ function AdminProduct() {
   const [modalOpen, setModalOpen] = useState(false)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [snackbarSeverity, setSnackbarSeverity] = useState('success')
+
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
     async function fetchProducts() {
@@ -94,38 +100,39 @@ function AdminProduct() {
   }
 
   return (
-    <Container component='main' maxWidth='md'>
-      <Typography variant='h4'>Manage Products</Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {products.map(product => (
-            <TableRow key={product._id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>₹ {product.price}.00</TableCell>
-              <TableCell>
-                <Button onClick={() => handleEditClick(product)} variant='contained' color='primary'>
-                  Edit
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button onClick={() => handleDelete(product._id)} variant='contained' color='secondary'>
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <Container component='main' >
+      <Box mt={4} mb={2}>
+        <Typography variant='h4' component='h1' align='center'>Manage Products</Typography>
+      </Box>
+
+      <Grid container spacing={2}>
+        {products.map((product) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+            <Box border={1} borderColor="divider" borderRadius={2} p={2} height="100%" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <Typography variant='h6'>{product.name}</Typography>
+              <Typography variant='body1'>{product.description}</Typography>
+              <Typography variant='body1'>₹ {product.price}.00</Typography>
+              <Typography variant='body1'>{product.term}</Typography>
+              <Typography variant='body1'>₹ {product.dailyIncome}.00</Typography>
+              <Typography variant='body1'>₹ {product.totalRevenue}.00</Typography>
+              <Box mt={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Button onClick={() => handleEditClick(product)} variant='contained' color='primary' fullWidth>
+                      Edit
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button onClick={() => handleDelete(product._id)} variant='contained' color='error' fullWidth>
+                      Delete
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Box
           sx={{
@@ -139,7 +146,7 @@ function AdminProduct() {
           }}
         >
           <Typography variant='h6' component='h2'>
-            Edit Product``
+            Edit Product
           </Typography>
           <form onSubmit={handleEditSubmit}>
             <TextField
@@ -149,6 +156,7 @@ function AdminProduct() {
               onChange={handleEditChange}
               fullWidth
               required
+              sx={{ marginTop: '8px' }}
             />
             <TextField
               label='Description'
@@ -159,6 +167,7 @@ function AdminProduct() {
               required
               multiline
               rows={4}
+              sx={{ marginTop: '8px' }}
             />
             <TextField
               label='Price'
@@ -168,8 +177,34 @@ function AdminProduct() {
               onChange={handleEditChange}
               fullWidth
               required
+              sx={{ marginTop: '8px' }}
             />
-            {/* Add more TextFields for other product attributes here */}
+            <TextField
+              label='Term'
+              name='term'
+              value={editingProduct?.term || ''}
+              onChange={handleEditChange}
+              fullWidth
+              sx={{ marginTop: '8px' }}
+            />
+            <TextField
+              label='Daily Income'
+              name='dailyIncome'
+              type='number'
+              value={editingProduct?.dailyIncome || ''}
+              onChange={handleEditChange}
+              fullWidth
+              sx={{ marginTop: '8px' }}
+            />
+            <TextField
+              label='Total Revenue'
+              name='totalRevenue'
+              type='number'
+              value={editingProduct?.totalRevenue || ''}
+              onChange={handleEditChange}
+              fullWidth
+              sx={{ marginTop: '8px' }}
+            />
             <Button type='submit' variant='contained' color='primary' fullWidth>
               Save
             </Button>

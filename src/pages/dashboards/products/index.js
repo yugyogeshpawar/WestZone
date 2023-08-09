@@ -27,21 +27,17 @@ function Products() {
       <Grid container spacing={4}>
         {products.map(product => (
           <Grid item xs={12} sm={6} md={4} key={product._id}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, margin: 'auto' }}>
               <CardMedia
                 component='img'
-                height='260'
+                height='280'
                 image={product.image}
                 alt={product.name}
               />
-              <CardContent>
+              <CardContent >
                 <Typography gutterBottom variant='h5' component='div'>
                   {product.name}
                 </Typography>
-                <Typography variant='body2' color='text.secondary'>
-                  {product.description}
-                </Typography>
-                <Rating name="product-rating" defaultValue={product.rating} precision={0.5} readOnly />
                 <Typography variant='body1' color='text.primary'>
                   ₹ {product.price}.00
                 </Typography>
@@ -54,7 +50,7 @@ function Products() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Link href={`/dashboards/products/${product._id}`} passHref sx={{ width:'100%' }}>
+                <Link href={`/dashboards/products/${product._id}`} passHref sx={{ width: '100%' }}>
                   <Button variant='contained' size="small" color="primary">
                     View Product
                   </Button>

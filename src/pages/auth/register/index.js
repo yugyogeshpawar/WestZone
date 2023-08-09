@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -22,6 +22,9 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+
+import { useRouter } from 'next/router'
+
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -54,6 +57,8 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const RegisterPage = () => {
   // ** States
+  const router = useRouter();
+ 
   const [values, setValues] = useState({
     mobile: '',
     username: '',
@@ -62,6 +67,13 @@ const RegisterPage = () => {
     showPassword: false,
     sponsorId: ''
   })
+
+
+  useEffect(() => {
+    if (router.query.ref) {
+      setValues(prevValues => ({ ...prevValues, sponsorId: router.query.ref }));
+    }
+  }, [router.query]);
 
   const [error, setError] = useState(null)
 

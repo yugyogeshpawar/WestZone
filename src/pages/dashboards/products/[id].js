@@ -156,7 +156,7 @@ const ProductPage = () => {
                     <DialogContentText id='alert-dialog-description'>
                       Are you sure you want to purchase<strong> {product.name}?</strong>
                     </DialogContentText>
-                    <DialogContentText id='alert-dialog-description'>
+                    <DialogContentText id='alert-dialog-description' mt={2}>
                       Your Balance is <strong> ₹{user.walletBalance}.00</strong>
                     </DialogContentText>
                     <DialogContentText id='alert-dialog-description'>
@@ -165,7 +165,7 @@ const ProductPage = () => {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleConfirm} autoFocus>
+                    <Button onClick={handleConfirm} autoFocus  variant='contained'>
                       Confirm
                     </Button>
                   </DialogActions>

@@ -1,84 +1,117 @@
-import React, { useState } from 'react'
-import { Typography, Button, IconButton, Card, CardContent, Snackbar } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import QRCode from 'qrcode.react'
-import { useTheme, useMediaQuery } from '@mui/material'
+import React, { useState } from 'react';
+import { Typography, Button, IconButton, Card, CardContent, Snackbar, Grid, Box } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import QRCode from 'qrcode.react';
+import { useTheme, useMediaQuery } from '@mui/material';
+import useAuth from 'src/@core/hooks/useAuth';
 
 const InvitationPage = () => {
-  const theme = useTheme()
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
-  const invitationCode = 'ABC123'
-  const invitationLink = 'https://example.com/invitation'
+  const { user } = useAuth();
+  const theme = useTheme();
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const invitationCode = user.username;
+  const invitationLink = `www.westzone.store/auth/register/?ref=${user.username}`;
 
-  // State for showing the snackbar
-  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleCopyLink = () => {
-    // Implement the logic to copy the invitation link to the clipboard
-    // For demonstration purposes, we'll just show the snackbar when the button is clicked
-    setSnackbarOpen(true)
-  }
+    // First try to use the modern Clipboard API
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(invitationLink)
+        .then(() => {
+          setSnackbarOpen(true);
+        })
+        .catch(err => {
+          console.warn('Clipboard API failed:', err);
+          fallbackCopyToClipboard();
+        });
+    } else {
+      // Use fallback for older browsers
+      fallbackCopyToClipboard();
+    }
+  };
+
+  const fallbackCopyToClipboard = () => {
+    const textArea = document.createElement("textarea");
+    textArea.value = invitationLink;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        setSnackbarOpen(true);
+      } else {
+        console.error('Fallback: Could not copy text.');
+      }
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+  };
+
 
   const handleCloseSnackbar = () => {
-    setSnackbarOpen(false)
-  }
+    setSnackbarOpen(false);
+  };
 
   return (
-    <div style={{ padding: isMobileView ? '0px' : '16px' }}>
-      {/* Back Button (Hidden in Desktop View) */}
-      <IconButton className='back-button' onClick={() => window.history.back()} aria-label='Back'>
-        <ArrowBackIcon />
-      </IconButton>
+    <Box padding={isMobileView ? '0px' : '16px'}>
+      <Grid container spacing={3}>
+        <IconButton onClick={() => window.history.back()} aria-label='Back'>
+          <ArrowBackIcon />
+        </IconButton>
 
-      {/* Invitation Card */}
-      <Card style={{ margin: '16px 0' }}>
-        <CardContent>
-          {/* Invitation Title */}
-          <Typography variant='h4'>Invitation Page</Typography>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Grid container spacing={3}>
+                <Grid item xs={12} align="center">
+                  <Typography variant='h4'>Invitation Page</Typography>
+                </Grid>
 
-          {/* Invitation Code */}
-          <Typography variant='body1'>Invitation Code: {invitationCode}</Typography>
+                <Grid item xs={12} align="center">
+                  <Typography variant='body1'>Invitation Code: {invitationCode}</Typography>
+                </Grid>
 
-          {/* QR Code Container */}
-          <div
-            style={{
-              textAlign: 'center',
-              margin: '16px 0',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ maxWidth: '100%', width: '250px' }}>
-              <QRCode value={invitationLink} size={240} />
-            </div>
-          </div>
+                <Grid item xs={12} align="center">
+                  <Box width={{ xs: '80%', md: '250px' }}>
+                    <QRCode value={invitationLink} size={240} />
+                  </Box>
+                </Grid>
 
-          {/* Invitation Link */}
-          <Typography variant='body1'>Invitation Link: {invitationLink}</Typography>
+                <Grid item xs={12} align="center">
+                  <Typography variant='body1'>Invitation Link: {invitationLink}</Typography>
+                </Grid>
 
-          {/* Copy Invitation Link Button */}
-          <Button style={{ marginTop: '16px' }} variant='contained' color='primary' onClick={handleCopyLink}>
-            Copy Invitation Link
-          </Button>
+                <Grid item xs={12} align="center">
+                  <Button variant='contained' color='primary' onClick={handleCopyLink}>
+                    Copy Invitation Link
+                  </Button>
+                </Grid>
 
-          {/* Tips */}
-          <Typography variant='body2'>
-            Tips: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu ultricies nunc.
-          </Typography>
-        </CardContent>
-      </Card>
+                <Grid item xs={12} align="center">
+                  <Typography variant='body2'>
+                    Tips: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu ultricies nunc.
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
 
-      {/* Snackbar for Link Copied */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         message='Invitation link copied to clipboard!'
-        style={{ background: 'green', color: '#ffffff' }} // Customize background and text color
+        style={{ background: 'green', color: '#ffffff' }}
       />
-    </div>
-  )
-}
+    </Box>
+  );
+};
 
-export default InvitationPage
+export default InvitationPage;

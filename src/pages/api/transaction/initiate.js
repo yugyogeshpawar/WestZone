@@ -21,11 +21,11 @@ export default async (req, res) => {
                     }).sort('-createdAt');
 
                     if (!transaction) {
-                        setTimeout(checkOneTime, 60000);
+                        setTimeout(checkOneTime, 44);
 
                         return res.status(404).json({ error: 'No transaction found for this user' });
                     }
-                    setTimeout(checkOneTime, 60000);
+                    setTimeout(checkOneTime, 600);
                     res.status(200).json(transaction);
                 } catch (error) {
                     consle.log("Error details:", error);
@@ -72,71 +72,23 @@ export default async (req, res) => {
                 }
 
                 try {
-                    const transaction = await Transaction.findOneAndUpdate({ partner_id: partner_id }, { status: 'successful' }, { new: true });
 
-                    if (!transaction) {
-                        return res.status(404).json({ error: 'Transaction not found' });
-                    }
+                    // const transaction = await Transaction.findOneAndUpdate({ partner_id: partner_id }, { status: 'successful' }, { new: true });
 
-                    const user = await User.findOne({ email: req.user.email });
-                    if (!user) {
-                        return res.status(404).json({ error: 'User not found' });
-                    }
+                    // if (!transaction) {
+                    // return res.status(404).json({ error: 'Transaction not found' });
+                    // }
 
-                    await User.findOneAndUpdate({ email: req.user.email }, { $inc: { walletBalance: transaction.amount } });
-                    const sponsorId = user.sponsorId;
+                    // const user = await User.findOne({ email: req.user.email });
+                    // if (!user) {
+                    //     return res.status(404).json({ error: 'User not found' });
+                    // }
 
-                    if (sponsorId && transaction.amount) {
-                        const referralAmount = transaction.amount * 0.10;
-                        const sponsor = await User.findOneAndUpdate({ username: sponsorId }, { $inc: { walletAmount: referralAmount } });
+                    // await User.findOneAndUpdate({ email: req.user.email }, { $inc: { walletBalance: transaction.amount } });
+                    // const sponsorId = user.sponsorId;
+                    // console.log("sponsorId:", sponsorId);
 
-                        if (sponsor) {
-                            const refIncomeHistory = new RefIncome({
-                                sponsorId: sponsorId,
-                                referredUserId: user.username,
-                                amount: referralAmount,
-                                username: user.username,
-                                level: 1
-                            });
-                            await refIncomeHistory.save();
-                        }
-                    }
-
-                    const firstLevelSponsor = await User.findOne({ username: sponsorId });
-                    if (firstLevelSponsor && transaction.amount) {
-                        const secondLevelReferralAmount = transaction.amount * 0.05;
-                        const secondLevelSponsor = await User.findOneAndUpdate({ username: firstLevelSponsor.sponsorId }, { $inc: { walletAmount: secondLevelReferralAmount } });
-
-                        if (secondLevelSponsor) {
-                            const secondLevelRefIncomeHistory = new RefIncome({
-                                sponsorId: firstLevelSponsor.sponsorId,
-                                referredUserId: sponsorId,
-                                amount: secondLevelReferralAmount,
-                                username: user.username,
-                                level: 2
-                            });
-                            await secondLevelRefIncomeHistory.save();
-                        }
-                    }
-
-                    const secondLevelSponsor = await User.findOne({ username: firstLevelSponsor.sponsorId });
-                    if (secondLevelSponsor && transaction.amount) {
-                        const thirdLevelReferralAmount = transaction.amount * 0.02;
-                        const thirdLevelSponsor = await User.findOneAndUpdate({ username: secondLevelSponsor.sponsorId }, { $inc: { walletAmount: thirdLevelReferralAmount } });
-
-                        if (thirdLevelSponsor) {
-                            const thirdLevelRefIncomeHistory = new RefIncome({
-                                sponsorId: secondLevelSponsor.sponsorId,
-                                referredUserId: firstLevelSponsor.sponsorId,
-                                amount: thirdLevelReferralAmount,
-                                username: user.username,
-                                level: 3
-                            });
-                            await thirdLevelRefIncomeHistory.save();
-                        }
-                    }
-
-                    checkOneTime();
+                    // await updateLevelIncome(user, transaction.amount, 1);
 
                     res.status(200).json({ message: 'Transaction updated successfully', transaction });
                 } catch (error) {

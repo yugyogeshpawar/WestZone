@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTheme, useMediaQuery } from '@mui/material'
 import {
   Typography,
@@ -13,20 +13,21 @@ import {
   TableRow,
   Paper
 } from '@mui/material'
+import axios from 'axios'
+
 
 const MyTeam = () => {
   const theme = useTheme()
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
 
+
   // Sample data for tables (you can replace this with your actual data)
-  const teamMembers = [
-    { id: 1, name: 'John Doe', role: 'Manager' },
-    { id: 2, name: 'Jane Smith', role: 'Developer' }
-  ]
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [inactiveMembers, setInactiveMembers] = useState([]);
 
-  const teamLeads = [{ id: 1, name: 'Michael Johnson', role: 'Team Lead' }]
 
-  const interns = [{ id: 1, name: 'Emily Brown', role: 'Intern' }]
+  const directMembers = teamMembers.filter(member => member.level === 1);
+
 
   // State for the active tab
   const [activeTab, setActiveTab] = useState(0)
@@ -34,6 +35,45 @@ const MyTeam = () => {
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue)
   }
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  }
+
+  useEffect(() => {
+    // Fetch team data from the API
+    const fetchTeamData = async () => {
+      const accessToken = window.localStorage.getItem('accessToken')
+
+      if (accessToken) {
+        const headers = { Authorization: `Bearer ${accessToken}` }
+
+        try {
+          const response = await axios.get('/api/list/myteam', { headers })
+          console.log(response.data)
+
+          if (response.data && response.data.teamMembers) {
+            setTeamMembers(response.data.teamMembers);
+          }
+
+          // Fetch inactive members
+          const inactiveResponse = await axios.get('/api/list/inactiveMember', { headers })
+          console.log(inactiveResponse.data)
+
+          if (inactiveResponse.data && inactiveResponse.data.inactiveMembers) {
+            setInactiveMembers(inactiveResponse.data.inactiveMembers);
+          }
+
+        } catch (error) {
+          console.error("Error fetching data:", error)
+        }
+      }
+    }
+
+    fetchTeamData()
+  }, [])
 
   return (
     <div style={{ padding: isMobileView ? '0px' : '16px' }}>
@@ -44,8 +84,8 @@ const MyTeam = () => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='Team Members' />
-          <Tab label='Team Leads' />
-          <Tab label='Interns' />
+          <Tab label='Direct Members' />
+          <Tab label='Inactive Team Members' />
         </Tabs>
       </Box>
 
@@ -56,17 +96,21 @@ const MyTeam = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
+                <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Joining Date</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Investment Amount</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Total Earning</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {teamMembers.map(member => (
+              {teamMembers.map((member, index) => (
                 <TableRow key={member.id}>
-                  <TableCell>{member.id}</TableCell>
-                  <TableCell>{member.name}</TableCell>
-                  <TableCell>{member.role}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{index + 1}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.username}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{formatDate(member.createdAt)}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.topupAmt}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.totalEarning}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -75,22 +119,26 @@ const MyTeam = () => {
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
-        {/* Table for Team Leads */}
+        {/* Table for Direct Members */}
         <TableContainer component={Paper} sx={{ margin: { xs: '8px 0', sm: '16px 0' } }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
+                <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Joining Date</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Investment Amount</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Total Earning</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {teamLeads.map(lead => (
-                <TableRow key={lead.id}>
-                  <TableCell>{lead.id}</TableCell>
-                  <TableCell>{lead.name}</TableCell>
-                  <TableCell>{lead.role}</TableCell>
+              {directMembers.map((member, index) => (
+                <TableRow key={member.id}>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{index + 1}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.username}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{formatDate(member.createdAt)}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.topupAmt}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.totalEarning}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -99,28 +147,33 @@ const MyTeam = () => {
       </TabPanel>
 
       <TabPanel value={activeTab} index={2}>
-        {/* Table for Interns */}
+        {/* Table for Inactive Members */}
         <TableContainer component={Paper} sx={{ margin: { xs: '8px 0', sm: '16px 0' } }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
+                <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Joining Date</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Investment Amount</TableCell>
+                <TableCell style={{ whiteSpace: 'nowrap' }}>Total Earning</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {interns.map(intern => (
-                <TableRow key={intern.id}>
-                  <TableCell>{intern.id}</TableCell>
-                  <TableCell>{intern.name}</TableCell>
-                  <TableCell>{intern.role}</TableCell>
+              {inactiveMembers.map((member, index) => (
+                <TableRow key={member.id}>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{index + 1}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.username}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{formatDate(member.createdAt)}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.topupAmt}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.totalEarning}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </TabPanel>
+
     </div>
   )
 }

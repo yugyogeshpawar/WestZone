@@ -42,7 +42,7 @@ const TabName = styled('span')(({ theme }) => ({
 
 const AccountSettings = () => {
   // ** State
-  const [value, setValue] = useState('buyProduct')
+  const [value, setValue] = useState('dailyIncome')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -56,7 +56,7 @@ const AccountSettings = () => {
           aria-label='account-settings tabs'
           sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
         >
-          <Tab
+          {/* <Tab
             value='buyProduct'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -64,7 +64,7 @@ const AccountSettings = () => {
                 <TabName>own Products</TabName>
               </Box>
             }
-          />
+          /> */}
           <Tab
             value='dailyIncome'
             label={
@@ -103,9 +103,9 @@ const AccountSettings = () => {
           />
         </TabList>
 
-        <TabPanel sx={{ p: 0 }} value='buyProduct'>
+        {/* <TabPanel sx={{ p: 0 }} value='buyProduct'>
           <OwnProducts />
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel sx={{ p: 0 }} value='dailyIncome'>
           <DailyIncome />
         </TabPanel>

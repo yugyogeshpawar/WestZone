@@ -1,6 +1,6 @@
-import User from '../../../server/models/user.model'
+import User from 'src/server/models/user.model'
 import bcrypt from 'bcryptjs'
-import dbConnect from '../../../server/utils/dbConnect'
+import dbConnect from 'src/server/utils/dbConnect'
 
 export default async (req, res) => {
   await dbConnect()

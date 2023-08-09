@@ -41,6 +41,6 @@ const investDetailSchema = new mongoose.Schema({
     default: false
   }
 })
-const InvestHistory = mongoose.model('InvestHistory', investDetailSchema)
+const InvestHistory = mongoose.models.InvestHistory || mongoose.model('InvestHistory', investDetailSchema)
 
 export default InvestHistory

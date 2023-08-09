@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Rating, Chip, CardActions, Button } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Rating, Chip, CardActions, Button, useTheme, useMediaQuery } from '@mui/material'
 
 function Products() {
   const [products, setProducts] = useState([])
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   useEffect(() => {
     async function fetchData() {
@@ -21,24 +24,24 @@ function Products() {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom component="div">
+      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom component="div" sx={{ paddingBottom: '8px' }}>
         Products
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         {products.map(product => (
-          <Grid item xs={12} sm={6} md={4} key={product._id}>
-            <Card sx={{ maxWidth: 345, margin: 'auto' }}>
+          <Grid item xs={6} sm={6} md={3} key={product._id}>
+            <Card sx={{ maxWidth: 345, margin: 'auto', padding: '8px' }}>
               <CardMedia
                 component='img'
                 height='280'
                 image={product.image}
                 alt={product.name}
               />
-              <CardContent >
-                <Typography gutterBottom variant='h5' component='div'>
+              <CardContent sx={{ padding: '8px' }}>
+                <Typography gutterBottom variant={isMobile ? "h6" : "h5"} component='div'>
                   {product.name}
                 </Typography>
-                <Typography variant='body1' color='text.primary'>
+                <Typography variant={isMobile ? "body2" : "body1"} color='text.primary'>
                   ₹ {product.price}.00
                 </Typography>
                 <Chip label={`Term: ${product.term} days`} variant="outlined" sx={{ mr: 1, mt: 1 }} />
@@ -49,7 +52,7 @@ function Products() {
                   Total Revenue: ₹ {product.totalRevenue}.00
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions sx={{ padding: '8px' }}>
                 <Link href={`/dashboards/products/${product._id}`} passHref sx={{ width: '100%' }}>
                   <Button variant='contained' size="small" color="primary">
                     View Product

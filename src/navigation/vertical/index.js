@@ -78,6 +78,11 @@ const navigation = () => {
       path: '/dashboards/history'
     },
     {
+      title: 'Withdraw',
+      icon: CheckDecagramOutline,
+      path: '/dashboards/withdraw'
+    },
+    {
       sectionTitle: 'User'
     },
     {

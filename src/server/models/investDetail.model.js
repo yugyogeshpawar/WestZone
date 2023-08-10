@@ -39,6 +39,18 @@ const investDetailSchema = new mongoose.Schema({
   checked: {
     type: Boolean,
     default: false
+  },
+  terms: {
+    type: Number,
+    required: true
+  },
+  dailyIncome: { 
+    type: Number,
+    required: true
+  },
+  totalRevenue: {
+    type: Number,
+    required: true
   }
 })
 const InvestHistory = mongoose.models.InvestHistory || mongoose.model('InvestHistory', investDetailSchema)

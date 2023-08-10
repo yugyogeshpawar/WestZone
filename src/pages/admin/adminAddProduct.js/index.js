@@ -13,7 +13,12 @@ function AdminProduct() {
     image: '',
     term: '',
     dailyIncome: '',
-    totalRevenue: ''
+    totalRevenue: '',
+    paragraph1: '',
+    paragraph2: '',
+    paragraph3: '',
+    paragraph4: '',
+    paragraph5: ''
   })
 
   const [message, setMessage] = useState('')
@@ -75,7 +80,12 @@ function AdminProduct() {
           image: '',
           term: '',
           dailyIncome: '',
-          totalRevenue: ''
+          totalRevenue: '',
+          paragraph1: '',
+          paragraph2: '',
+          paragraph3: '',
+          paragraph4: '',
+          paragraph5: ''
         })
       }
     }
@@ -174,6 +184,61 @@ function AdminProduct() {
           value={product.totalRevenue}
           onChange={handleChange}
           required
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          fullWidth
+          multiline
+          rows={4}
+          label='Paragraph 1'
+          name='paragraph1'
+          value={product.paragraph1}
+          onChange={handleChange}
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          fullWidth
+          multiline
+          rows={4}
+          label='Paragraph 2'
+          name='paragraph2'
+          value={product.paragraph2}
+          onChange={handleChange}
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          fullWidth
+          multiline
+          rows={4}
+          label='Paragraph 3'
+          name='paragraph3'
+          value={product.paragraph3}
+          onChange={handleChange}
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          fullWidth
+          multiline
+          rows={4}
+          label='Paragraph 4'
+          name='paragraph4'
+          value={product.paragraph4}
+          onChange={handleChange}
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          fullWidth
+          multiline
+          rows={4}
+          label='Paragraph 5'
+          name='paragraph5'
+          value={product.paragraph5}
+          onChange={handleChange}
         />
         <Button type='submit' variant='contained' color='primary' fullWidth>
           Add Product

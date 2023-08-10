@@ -33,7 +33,7 @@ function Products() {
             <Card sx={{ maxWidth: 345, margin: 'auto', padding: '8px' }}>
               <CardMedia
                 component='img'
-                height='280'
+                maxWidth='285px'
                 image={product.image}
                 alt={product.name}
               />

@@ -112,17 +112,17 @@ const Dashboard = () => {
               <Grid item xs={4} md={3}>
                 <SimpleCard title='Check Ins' icon={FactCheckIcon} link='/dashboards/check-ins' />
               </Grid>
-              <Grid item xs={4} md={3}>
+              {/* <Grid item xs={4} md={3}>
                 <SimpleCard title='Products' icon={FactCheckIcon} link='/dashboards/products' />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
 
         <div style={{ width: '100%' }} ></div>
-        <Grid>
+        {/* <Grid>
           <News />
-        </Grid>
+        </Grid> */}
       </Grid>
       <TopUpPage open={topUpOpen} onClose={handleTopUpClose} />
     </ApexChartWrapper>

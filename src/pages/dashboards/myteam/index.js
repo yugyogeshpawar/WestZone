@@ -109,7 +109,7 @@ const MyTeam = () => {
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{index + 1}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{member.username}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{formatDate(member.createdAt)}</TableCell>
-                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.topupAmt}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.currentInvst}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{member.totalEarning}</TableCell>
                 </TableRow>
               ))}
@@ -137,7 +137,7 @@ const MyTeam = () => {
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{index + 1}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{member.username}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{formatDate(member.createdAt)}</TableCell>
-                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.topupAmt}</TableCell>
+                  <TableCell style={{ whiteSpace: 'nowrap' }}>{member.currentInvst}</TableCell>
                   <TableCell style={{ whiteSpace: 'nowrap' }}>{member.totalEarning}</TableCell>
                 </TableRow>
               ))}

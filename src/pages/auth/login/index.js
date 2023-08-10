@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Form, Formik, Field, ErrorMessage } from 'formik'
@@ -28,6 +29,7 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { Snackbar, Alert } from '@mui/material'
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
@@ -67,6 +69,12 @@ const LoginPage = () => {
     password: Yup.string().required('Password is required')
   })
 
+  const StyledLink = styled('a')({
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none'
+  })
+
   const handleSubmit = async values => {
     setLoading(true)
     setError(null)
@@ -94,18 +102,17 @@ const LoginPage = () => {
       <Card sx={{ zIndex: 1 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography
-              variant='h6'
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
-            >
+            <StyledLink>
+              <Image
+                src="/images/logo/main-logo.png"
+                alt="Logo"
+                width={150}
+                height={15}
+              />
+              {/* <HeaderTitle variant='h6' sx={{ ml: 3 }}>
               {themeConfig.templateName}
-            </Typography>
+            </HeaderTitle> */}
+            </StyledLink>
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5, textAlign: 'center' }}>
@@ -216,7 +223,7 @@ const LoginPage = () => {
           {error || 'An unknown error occurred'}
         </Alert>
       </Snackbar>
-    </Box>
+    </Box >
   )
 }
 

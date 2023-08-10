@@ -16,12 +16,27 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+
 import MuiAlert from '@mui/material/Alert'
 
 function AdminProduct() {
   const [products, setProducts] = useState([])
   const [message, setMessage] = useState('')
-  const [editingProduct, setEditingProduct] = useState(null)
+
+  const [editingProduct, setEditingProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    image: '',
+    term: '',
+    dailyIncome: '',
+    totalRevenue: '',
+    paragraph1: '',
+    paragraph2: '',
+    paragraph3: '',
+    paragraph4: '',
+    paragraph5: ''
+  })
   const [modalOpen, setModalOpen] = useState(false)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [snackbarSeverity, setSnackbarSeverity] = useState('success')
@@ -46,6 +61,11 @@ function AdminProduct() {
   const handleEditClick = product => {
     setEditingProduct(product)
     setModalOpen(true)
+  }
+
+  const handleImageChange = e => {
+    const { name, value } = e.target;
+    setEditingProduct(prevProduct => ({ ...prevProduct, [name]: value }));
   }
 
   const handleEditChange = e => {
@@ -142,6 +162,9 @@ function AdminProduct() {
             transform: 'translate(-50%, -50%)',
             bgcolor: 'background.paper',
             boxShadow: 24,
+            width: { xs: '90%', sm: 'auto' },
+            maxHeight: '80vh', // set max height to 80% of the viewport height
+            overflowY: 'auto', // make it scrollable
             p: 4
           }}
         >
@@ -167,6 +190,14 @@ function AdminProduct() {
               required
               multiline
               rows={4}
+              sx={{ marginTop: '8px' }}
+            />
+            <TextField
+              label='Image URL'
+              name='image'
+              value={editingProduct?.image || ''}
+              onChange={handleImageChange}
+              fullWidth
               sx={{ marginTop: '8px' }}
             />
             <TextField
@@ -204,6 +235,61 @@ function AdminProduct() {
               onChange={handleEditChange}
               fullWidth
               sx={{ marginTop: '8px' }}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              fullWidth
+              multiline
+              rows={4}
+              label='Paragraph 1'
+              name='paragraph1'
+              value={editingProduct?.paragraph1 || ''}
+              onChange={handleEditChange}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              fullWidth
+              multiline
+              rows={4}
+              label='Paragraph 2'
+              name='paragraph2'
+              value={editingProduct?.paragraph2 || ''}
+              onChange={handleEditChange}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              fullWidth
+              multiline
+              rows={4}
+              label='Paragraph 3'
+              name='paragraph3'
+              value={editingProduct?.paragraph3 || ''}
+              onChange={handleEditChange}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              fullWidth
+              multiline
+              rows={4}
+              label='Paragraph 4'
+              name='paragraph4'
+              value={editingProduct?.paragraph4 || ''}
+              onChange={handleEditChange}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              fullWidth
+              multiline
+              rows={4}
+              label='Paragraph 5'
+              name='paragraph5'
+              value={editingProduct?.paragraph5 || ''}
+              onChange={handleEditChange}
             />
             <Button type='submit' variant='contained' color='primary' fullWidth>
               Save

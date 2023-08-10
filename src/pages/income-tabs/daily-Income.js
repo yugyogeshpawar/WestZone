@@ -1,22 +1,26 @@
-import React from 'react'
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const HistoryPage = () => {
-  // Replace this with actual data
-  const historyData = [
-    {
-      no: 1,
-      date: '2023-07-30',
-      percent: 10,
-      product: 'Product 1'
-    },
-    {
-      no: 2,
-      date: '2023-07-29',
-      percent: 8,
-      product: 'Product 2'
+  const [historyData, setHistoryData] = useState([]);
+  const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (accessToken) {
+      const headers = { Authorization: `Bearer ${accessToken}` };
+
+      // Fetching referral income history from the backend using axios
+      axios.get('/api/list/dailyincome', { headers })
+        .then(response => {
+          console.log('Daily income history:', response.data);
+
+          setHistoryData(response.data.dailyIncomes);
+        })
+        .catch(error => {
+          console.error('Error fetching referral income history:', error);
+        });
     }
-  ]
+  }, [accessToken]);
 
   return (
     <div>
@@ -29,26 +33,28 @@ const HistoryPage = () => {
             <TableRow>
               <TableCell>No.</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell align='right'>Percent (%)</TableCell>
-              <TableCell>Product</TableCell>
+              <TableCell align='right'>Amount</TableCell>
+              <TableCell align='right'>Investment</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {historyData.map(row => (
-              <TableRow key={row.no}>
+            {historyData.map((row, index) => (
+              <TableRow key={index}>
                 <TableCell component='th' scope='row'>
-                  {row.no}
+                  {index + 1}
                 </TableCell>
                 <TableCell>{row.date}</TableCell>
-                <TableCell align='right'>{row.percent}</TableCell>
-                <TableCell>{row.product}</TableCell>
+                <TableCell align='right'>{row.amount}</TableCell>
+                <TableCell align='right'>{row.investPackage}</TableCell>
+                <TableCell>{row.paymentStatus}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
-  )
-}
+  );
+};
 
-export default HistoryPage
+export default HistoryPage;

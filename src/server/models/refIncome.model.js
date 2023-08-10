@@ -11,6 +11,10 @@ const refIncomeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    investAmount: {
+        type: Number,
+        required: true
+    },
     amount: {
         type: Number,
         required: true
@@ -19,9 +23,17 @@ const refIncomeSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    level: {
+        type: Number,
+        required: true
+    },
     username: {
         type: String,
         required: true
+    },
+    status: {
+        type: Boolean,
+        default: false
     }
 });
 

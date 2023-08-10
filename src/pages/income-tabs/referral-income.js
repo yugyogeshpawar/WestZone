@@ -1,22 +1,26 @@
-import React from 'react'
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const HistoryPage = () => {
-  // Replace this with actual data
-  const historyData = [
-    {
-      date: '2023-07-30',
-      income: 100,
-      percent: 10,
-      status: 'Success'
-    },
-    {
-      date: '2023-07-29',
-      income: 80,
-      percent: 8,
-      status: 'Success'
+  const [historyData, setHistoryData] = useState([]);
+
+  useEffect(() => {
+    const accessToken = window.localStorage.getItem('accessToken')
+    if (accessToken) {
+      const headers = { Authorization: `Bearer ${accessToken}` };
+
+      // Fetching referral income history from the backend using axios
+      axios.get('/api/list/refincomelist', { headers })
+        .then(response => {
+          setHistoryData(response.data.refIncomes);
+          console.log('Referral income history:', response.data.refIncomes); T
+        })
+        .catch(error => {
+          console.error('Error fetching referral income history:', error);
+        });
     }
-  ]
+  }, []);
 
   return (
     <div>
@@ -29,7 +33,9 @@ const HistoryPage = () => {
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell align='right'>Income ($)</TableCell>
-              <TableCell align='right'>Percent (%)</TableCell>
+              <TableCell align='right'>Referral</TableCell>
+              <TableCell align='right'>Level</TableCell>
+              <TableCell align='right'>Investment.</TableCell>
               <TableCell align='right'>Status</TableCell>
             </TableRow>
           </TableHead>
@@ -37,18 +43,20 @@ const HistoryPage = () => {
             {historyData.map((row, index) => (
               <TableRow key={index}>
                 <TableCell component='th' scope='row'>
-                  {row.date}
+                  {new Date(row.date).toLocaleString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </TableCell>
-                <TableCell align='right'>{row.income}</TableCell>
-                <TableCell align='right'>{row.percent}</TableCell>
-                <TableCell align='right'>{row.status}</TableCell>
+                <TableCell align='right'>{row.amount}</TableCell>
+                <TableCell align='right'>{row.referredUserId}</TableCell>
+                <TableCell align='right'>{row.level}</TableCell>
+                <TableCell align='right'>{row.investAmount}</TableCell>
+                <TableCell align='right'>{row.status ? 'Sucessfull' : 'False'}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
-  )
+  );
 }
 
-export default HistoryPage
+export default HistoryPage;

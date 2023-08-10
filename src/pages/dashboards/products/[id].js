@@ -46,6 +46,7 @@ const ProductPage = () => {
       const fetchData = async () => {
         const response = await axios.get(`/api/products/${id}`)
         setProduct(response.data)
+        console.log(response.data)
         setLoading(false)
       }
 
@@ -56,7 +57,7 @@ const ProductPage = () => {
   const handleClickOpen = () => {
     setOpen(true)
   }
-  
+
   const goBack = () => {
     router.back()
   }
@@ -107,7 +108,7 @@ const ProductPage = () => {
       ) : (
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6}>
-            <ProductImage src={product.image} alt={product.name} />
+            <ProductImage src={product.image} alt={product.name} style={{ objectFit: 'contain' }} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Card sx={{ width: '100%', height: '100%' }}>
@@ -119,19 +120,7 @@ const ProductPage = () => {
                   <Typography variant='body2' color='text.secondary'>
                     {product.description}
                   </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque nibh mauris.
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    Sed facilisis, neque at volutpat mollis, dui massa fermentum nunc, id maximus arcu mauris a nulla.
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    Vivamus facilisis vulputate metus sit amet commodo. Proin venenatis, eros id elementum euismod, elit mauris porttitor orci, ut volutpat lacus arcu nec est.
-                  </Typography>
-                  <Rating name="product-rating" defaultValue={product.rating} precision={0.5} readOnly />
+                  <Rating name="product-rating" defaultValue={5} precision={0.5} readOnly />
                   <Typography variant='body2' color='text.secondary'>
                     <strong>Price: </strong> ₹{product.price}
                   </Typography>
@@ -140,6 +129,21 @@ const ProductPage = () => {
                   </Typography>
                   <Typography variant='body2' color='text.secondary'>
                     <strong>Total Revenue: </strong> {product.totalRevenue}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {product.paragraph1 && product.paragraph1}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {product.paragraph2 && product.paragraph2}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {product.paragraph3 && product.paragraph3}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {product.paragraph4 && product.paragraph4}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {product.paragraph5 && product.paragraph5}
                   </Typography>
                 </Box>
                 <Button variant='contained' color='primary' onClick={handleClickOpen}>
@@ -165,7 +169,7 @@ const ProductPage = () => {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleConfirm} autoFocus  variant='contained'>
+                    <Button onClick={handleConfirm} autoFocus variant='contained'>
                       Confirm
                     </Button>
                   </DialogActions>

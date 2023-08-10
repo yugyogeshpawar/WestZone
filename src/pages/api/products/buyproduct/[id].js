@@ -41,9 +41,15 @@ export default async function handle(req, res) {
           investPackage: product.price,
           status: 'purchased',
           paymentStatus: 'completed',
+          terms: product.term,
+          dailyIncome : product.dailyIncome,
+          totalRevenue : product.totalRevenue,
           checked: false
         })
         const savedInvestDetail = await investDetail.save()
+
+        user.currentInvst += product.price
+        await user.save()
 
 
         res.status(200).json({ message: 'Purchase successful' })

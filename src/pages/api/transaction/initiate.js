@@ -184,8 +184,10 @@ async function updateLevelIncome(user, amount, level) {
         sponsorId: sponsor.username,
         referredUserId: user.username,
         amount: income,
+        investAmount: amount,
         username: user.username,
-        level: level
+        level: level,
+        status: true
     });
     await refIncome.save();
 

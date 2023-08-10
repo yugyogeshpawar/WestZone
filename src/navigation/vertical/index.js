@@ -17,6 +17,9 @@ import DownloadBox from 'mdi-material-ui/DownloadBox'
 import AccountCircle from 'mdi-material-ui/AccountCircle'
 import CheckDecagramOutline from 'mdi-material-ui/CheckDecagramOutline'
 import CashMultiple from 'mdi-material-ui/CashMultiple'
+import ClipboardTextClockOutline from 'mdi-material-ui/ClipboardTextClockOutline'
+import CartHeart from 'mdi-material-ui/CartHeart'
+import CashFast from 'mdi-material-ui/CashFast'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 
@@ -63,23 +66,18 @@ const navigation = () => {
       path: '/dashboards/money-making'
     },
     {
-      title: 'Check ins',
-      icon: CheckDecagramOutline,
-      path: '/dashboards/check-ins'
-    },
-    {
       title: 'Products',
-      icon: CheckDecagramOutline,
+      icon: CartHeart,
       path: '/dashboards/products'
     },
     {
       title: 'History',
-      icon: CheckDecagramOutline,
+      icon: ClipboardTextClockOutline,
       path: '/dashboards/history'
     },
     {
       title: 'Withdraw',
-      icon: CheckDecagramOutline,
+      icon: CashFast,
       path: '/dashboards/withdraw'
     },
     {
@@ -120,34 +118,6 @@ const navigation = () => {
       icon: AlertCircleOutline,
       path: '/pages/error',
       openInNewTab: true
-    },
-    {
-      sectionTitle: 'User Interface'
-    },
-    {
-      title: 'Typography',
-      icon: FormatLetterCase,
-      path: '/typography'
-    },
-    {
-      title: 'Icons',
-      path: '/icons',
-      icon: GoogleCirclesExtended
-    },
-    {
-      title: 'Cards',
-      icon: CreditCardOutline,
-      path: '/cards'
-    },
-    {
-      title: 'Tables',
-      icon: Table,
-      path: '/tables'
-    },
-    {
-      icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
     }
   ]
 }

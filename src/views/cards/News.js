@@ -15,6 +15,13 @@ const News = () => {
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       date: '2023-07-29',
       imageSrc: '/images/news/news.jpg'
+    },
+    {
+      id: 2,
+      title: 'Lorem Ipsum News 1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      date: '2023-07-29',
+      imageSrc: '/images/news/news.jpg'
     }
   ]
 

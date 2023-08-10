@@ -1,103 +1,63 @@
-// ** React Imports
-import { useState } from 'react'
+import React, { useState } from 'react';
+import { Button, TextField, Typography, Container, useTheme, useMediaQuery, Paper } from '@mui/material';
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
-import { styled } from '@mui/material/styles'
-import MuiTab from '@mui/material/Tab'
+const SupportPage = () => {
+  const [message, setMessage] = useState('');
+  const theme = useTheme();
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
 
-// ** Icons Imports
-import AccountOutline from 'mdi-material-ui/AccountOutline'
-import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
-import InformationOutline from 'mdi-material-ui/InformationOutline'
-
-// ** Demo Tabs Imports
-import TabInfo from 'src/views/account-settings/TabInfo'
-import TabAccount from 'src/views/account-settings/TabAccount'
-import TabSecurity from 'src/views/account-settings/TabSecurity'
-
-// ** Third Party Styles Imports
-import 'react-datepicker/dist/react-datepicker.css'
-
-const Tab = styled(MuiTab)(({ theme }) => ({
-  [theme.breakpoints.down('md')]: {
-    minWidth: 100
-  },
-  [theme.breakpoints.down('sm')]: {
-    minWidth: 67
-  }
-}))
-
-const TabName = styled('span')(({ theme }) => ({
-  lineHeight: 1.71,
-  fontSize: '0.875rem',
-  marginLeft: theme.spacing(2.4),
-  [theme.breakpoints.down('md')]: {
-    display: 'none'
-  }
-}))
-
-const AccountSettings = () => {
-  // ** State
-  const [value, setValue] = useState('account')
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+  const handleSubmit = () => {
+    // Handle the support request submission logic here
+    console.log(`Support message: ${message}`);
+  };
 
   return (
-    <Card>
-      <TabContext value={value}>
-        <TabList
-          onChange={handleChange}
-          aria-label='account-settings tabs'
-          sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
-        >
-          <Tab
-            value='account'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <AccountOutline />
-                <TabName>Account</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='security'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <LockOpenOutline />
-                <TabName>Security</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='info'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InformationOutline />
-                <TabName>Info</TabName>
-              </Box>
-            }
-          />
-        </TabList>
+    <Container maxWidth="sm" style={{ padding: isMobileView ? '16px' : '32px' }}>
+      <Typography variant={isMobileView ? 'h5' : 'h4'} gutterBottom>
+        Support
+      </Typography>
+      <Typography variant={isMobileView ? 'body2' : 'body1'} gutterBottom>
+        If you have any questions or issues, please describe them below and we'll get back to you as soon as possible.
+      </Typography>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Your Message"
+        multiline
+        rows={4}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        style={{ margin: '16px 0' }}
+        InputProps={{
+          style: {
+            fontSize: isMobileView ? '0.8rem' : '1rem',
+          },
+        }}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleSubmit}
+        style={{ fontSize: isMobileView ? '0.8rem' : '1rem', marginBottom: '32px' }}
+      >
+        Submit
+      </Button>
 
-        <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
-        </TabPanel>
-      </TabContext>
-    </Card>
-  )
-}
+      {/* Additional Support Information */}
+      <Paper elevation={3} style={{ padding: '16px' }}>
+        <Typography variant={isMobileView ? 'h6' : 'h5'} gutterBottom>
+          Need Immediate Assistance?
+        </Typography>
+        <Typography variant={isMobileView ? 'body2' : 'body1'}>
+          Call our support hotline at: <strong>+1-800-123-4567</strong>
+        </Typography>
+        <Typography variant={isMobileView ? 'body2' : 'body1'} style={{ marginTop: '16px' }}>
+          Or email us at: <strong>support@westzone.store</strong>
+        </Typography>
+      </Paper>
+    </Container>
+  );
+};
 
-export default AccountSettings
+export default SupportPage;

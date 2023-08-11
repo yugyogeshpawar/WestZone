@@ -19,7 +19,8 @@ import {
   Alert,
   IconButton,
   Rating,
-  useTheme
+  useTheme,
+  useMediaQuery
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import ArrowBack from '@mui/icons-material/ArrowBack'
@@ -36,6 +37,7 @@ const ProductPage = () => {
   const router = useRouter()
   const { id } = router.query
   const { user } = useAuth()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -163,7 +165,7 @@ const ProductPage = () => {
                       Are you sure you want to purchase<strong> {product.name}?</strong>
                     </DialogContentText>
                     <DialogContentText id='alert-dialog-description' mt={2}>
-                      Your Balance is <strong> ₹{user.walletBalance}.00</strong>
+                      Your Balance is <strong> ₹{parseFloat(user.walletBalance).toFixed(2)}</strong>
                     </DialogContentText>
                     <DialogContentText id='alert-dialog-description'>
                       This Product Price is <strong> ₹{product.price}.00 </strong>
@@ -180,15 +182,9 @@ const ProductPage = () => {
                   open={snackbarOpen}
                   autoHideDuration={6000}
                   onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{
-                    '& .MuiPaper-root': {
-                      backgroundColor: theme.palette.background.default, // or any other color you prefer
-                      marginTop: '50px'
-                    }
-                  }}
+                  anchorOrigin={{ vertical: isMobileView ? 'bottom' : 'top', horizontal: 'right' }}
                 >
-                  <Alert onClose={handleSnackbarClose} severity={snackbarType} sx={{ width: '100%' }}>
+                  <Alert onClose={handleSnackbarClose} variant='filled' severity={snackbarType} sx={{ width: '100%' }}>
                     {snackbarMessage}
                   </Alert>
                 </Snackbar>

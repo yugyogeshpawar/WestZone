@@ -47,6 +47,8 @@ export default async (req, res) => {
 
                     const accountDetails = { ...req.body, userName: username };
 
+                    console.log("accountDetails:", accountDetails);
+
                     // Upsert operation
                     const updatedAccount = await AccountDetails.findOneAndUpdate(
                         { userName: username },
@@ -71,23 +73,6 @@ export default async (req, res) => {
             });
             break;
 
-
-        case 'DELETE':
-            authenticate(req, res, async () => {
-                try {
-                    const deletedAccount = await AccountDetails.findByIdAndRemove(id);
-
-                    if (!deletedAccount) {
-                        return res.status(404).json({ error: 'Account details not found' });
-                    }
-
-                    res.status(200).json({ message: 'Account details deleted successfully' });
-                } catch (error) {
-                    console.error("Error details:", error);
-                    res.status(500).json({ error: 'Error deleting account details' });
-                }
-            });
-            break;
         default:
             res.status(405).end(); // Method Not Allowed
             break;

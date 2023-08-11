@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
+import { useRouter } from 'next/router';
 
 // ** Styled Component Import
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
@@ -32,6 +33,7 @@ import TopUpPage from 'src/pages/dashboards/recharge'
 const Dashboard = () => {
 
   const { user } = useAuth()
+  const router = useRouter();
   const authContext = useContext(AuthContext)
   const { topUpOpen, setTopUpOpen } = useTopUp();
   const theme = useTheme();
@@ -44,6 +46,10 @@ const Dashboard = () => {
 
   const handleTopUpOpen = () => {
     setTopUpOpen(true)
+  }
+
+  const handleRedirect = () => {
+    router.push('/dashboards/withdraw');
   }
 
   const handleTopUpClose = () => {
@@ -78,7 +84,7 @@ const Dashboard = () => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
                 <Button variant='contained' onClick={handleTopUpOpen}>Recharge</Button>
-                <Button variant='contained' sx={{ ml: 2 }}>
+                <Button variant='contained' sx={{ ml: 2 }} onClick={handleRedirect}>
                   Withdraw
                 </Button>
               </Box>

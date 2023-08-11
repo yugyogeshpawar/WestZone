@@ -1,7 +1,7 @@
-import User from '../../../server/models/user.model'
+import User from 'src/server/models/user.model'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import dbConnect from '../../../server/utils/dbConnect'
+import dbConnect from 'src/server/utils/dbConnect'
 
 export default async (req, res) => {
   await dbConnect()
@@ -36,7 +36,7 @@ export default async (req, res) => {
 
     // Sign the token with a secret key to generate the JWT.
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '1h' // Set the token expiration time (e.g., 1 hour).
+      expiresIn: '2h' // Set the token expiration time (e.g., 1 hour).
     })
 
     // Return the JWT in the response.

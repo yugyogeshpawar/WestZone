@@ -134,13 +134,8 @@ const AddAccountDetails = () => {
                 onClose={handleCloseSnackbar}
                 anchorOrigin={{ vertical: isMobileView ? 'bottom' : 'top', horizontal: 'right' }}
                 style={{ marginTop: isMobileView && '48px' }}
-                sx={{
-                    '& .MuiPaper-root': {
-                        backgroundColor: theme.palette.background.default, // or any other color you prefer
-                    }
-                }}
             >
-                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseSnackbar} variant='filled'  severity={snackbarSeverity} sx={{ width: '100%' }}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

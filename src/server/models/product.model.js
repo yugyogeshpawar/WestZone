@@ -12,7 +12,8 @@ const productSchema = new mongoose.Schema({
   paragraph2: { type: String, required: false }, // New paragraph field
   paragraph3: { type: String, required: false }, // New paragraph field
   paragraph4: { type: String, required: false }, // New paragraph field
-  paragraph5: { type: String, required: false }  // New paragraph field
+  paragraph5: { type: String, required: false },  // New paragraph field
+  isDeleted: { type: Boolean, default: false } 
 })
 
 module.exports = mongoose.models.Product || mongoose.model('Product', productSchema)

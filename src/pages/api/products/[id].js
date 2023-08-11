@@ -13,7 +13,7 @@ export default async (req, res) => {
     case 'GET':
       if (id) {
         try {
-          const product = await Product.findById(id)
+          const product = await Product.findOne({ _id: id, isDeleted: false }) // Check for isDeleted: false
           if (!product) {
             return res.status(404).json({ error: 'Product not found' })
           }
@@ -48,17 +48,20 @@ export default async (req, res) => {
       break
     case 'DELETE':
       try {
-        const deletedProduct = await Product.findByIdAndRemove(id)
+        const product = await Product.findByIdAndUpdate(id, { isDeleted: true }, {
+          new: true,
+          runValidators: true
+        })
 
-        if (!deletedProduct) {
+        if (!product) {
           return res.status(404).json({ error: 'Product not found' })
         }
 
-        res.status(200).json({ message: 'Product deleted successfully' })
+        res.status(200).json({ message: 'Product marked as deleted successfully' })
       } catch (error) {
-        res.status(500).json({ error: 'Error deleting product' })
+        res.status(500).json({ error: 'Error marking product as deleted' })
       }
-      break
+      break;
     default:
       res.status(405).end() // Method Not Allowed
       break

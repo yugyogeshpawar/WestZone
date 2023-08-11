@@ -49,7 +49,7 @@ const HistoryPage = () => {
                 <TableCell align='right'>{row.referredUserId}</TableCell>
                 <TableCell align='right'>{row.level}</TableCell>
                 <TableCell align='right'>{row.investAmount}</TableCell>
-                <TableCell align='right'>{row.status ? 'Sucessfull' : 'False'}</TableCell>
+                <TableCell align='right'>{row.status ? 'Successful' : 'False'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

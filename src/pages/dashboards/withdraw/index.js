@@ -34,7 +34,6 @@ const WithdrawPage = () => {
         }
 
         setOpenSnackbar(false);
-        router.push('/dashboards/withdraw/addaccount'); // Redirect the user
     };
 
     const handleModalClose = () => {
@@ -51,15 +50,80 @@ const WithdrawPage = () => {
         setModalOpen(true);
     };
 
-    const handleConfirmWithdraw = () => {
-        // Handle the actual withdrawal logic here using userNumber and password
-        console.log(`Withdrawing amount: ${amount}`);
-        console.log(`User Number: ${userNumber}`);
-        console.log(`Password: ${password}`);
+    const handleConfirmWithdraw = async () => {
+        try {
+            const response = await axios.post('/api/auth/login', {
+                mobileNumber: user.mobileNumber,
+                password: password
+            });
 
-        // Close the modal after processing
-        handleModalClose();
+            if (response.data && response.status == 200) {
+                // Handle the actual withdrawal logic here if the login is successful
+                console.log("Withdrawal successful", response.data);
+                setSnackbarSeverity('success');
+                setSnackbarMessage('Login successful. Proceeding with withdrawal.');
+                setOpenSnackbar(true);
+
+                const accessToken = window.localStorage.getItem('accessToken');
+                if (!accessToken) return;
+
+                const headers = { Authorization: `Bearer ${accessToken}` };
+
+                const data = {
+                    amount: amount,
+                }
+
+                const response2 = await axios.post('/api/withdrawRequests', data, { headers });
+
+                console.log("Withdrawal successful", response2.data);
+
+
+                // You can then proceed with the withdrawal logic or any other operations you need to perform after successful authentication.
+
+                // Close the modal after processing
+                handleModalClose();
+            } else {
+                // Handle login failure
+                setSnackbarSeverity('error');
+                setSnackbarMessage('Login failed. Please check your credentials and try again.');
+                setOpenSnackbar(true);
+                handleModalClose();
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setSnackbarSeverity('error');
+            setSnackbarMessage('An error occurred during login. Please try again.');
+            setOpenSnackbar(true);
+        }
     };
+
+    useEffect(() => {
+        // Fetch withdrawal history from the API
+        const fetchWithdrawalHistory = async () => {
+            const accessToken = window.localStorage.getItem('accessToken');
+            if (!accessToken) return;
+
+            const headers = { Authorization: `Bearer ${accessToken}` };
+
+            try {
+                const response = await axios.get('/api/withdrawRequests', { headers });
+                if (response.data && response.data.withdrawRequests) {
+                    setWithdrawalHistory(response.data.withdrawRequests);
+                } else {
+                    setWithdrawalHistory([]);
+                }
+            } catch (error) {
+                console.error("Error fetching withdrawal history:", error);
+            }
+        };
+
+        fetchWithdrawalHistory();
+
+        // ... your existing code to fetch account details ...
+
+    }, []);
+
+
 
     useEffect(() => {
         // Fetch withdrawal history from the API or database
@@ -99,9 +163,14 @@ const WithdrawPage = () => {
 
             <Card variant="outlined" style={{ marginTop: '24px' }}>
                 <CardContent>
-                    <Typography variant={isMobileView ? 'h6' : 'h5'} gutterBottom>
-                        Account Details
-                    </Typography>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant={isMobileView ? 'h6' : 'h5'} gutterBottom>
+                            Account Details
+                        </Typography>
+                        <Button variant="contained" color="primary" size="small" onClick={() => router.push('/dashboards/withdraw/addaccount')}>
+                            Edit
+                        </Button>
+                    </Box>
                     <Divider style={{ marginBottom: '16px' }} />
                     {accountDetails ? (
                         <Grid container spacing={2}>
@@ -184,24 +253,32 @@ const WithdrawPage = () => {
                         </Typography>
                     </Paper>
                 ) : (
-                    <TableContainer component={Paper} elevation={3}>
-                        <Table size={isMobileView ? 'small' : 'medium'}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Date</TableCell>
-                                    <TableCell>Amount</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {withdrawalHistory.map((record) => (
-                                    <TableRow key={record.id}>
-                                        <TableCell>{record.date}</TableCell>
-                                        <TableCell>{record.amount}</TableCell>
+                    <Paper>
+                        <TableContainer component={Paper} elevation={3}>
+                            <Table size={isMobileView ? 'small' : 'medium'}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Amount</TableCell>
+                                        <TableCell>Status</TableCell>
+                                        <TableCell>Bank</TableCell>
+                                        <TableCell>Account Number</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {withdrawalHistory.map((record) => (
+                                        <TableRow key={record._id}>
+                                            <TableCell>{new Date(record.requestDate).toLocaleDateString()}</TableCell>
+                                            <TableCell>{record.amount}</TableCell>
+                                            <TableCell>{record.status}</TableCell>
+                                            <TableCell>{record.bankName}</TableCell>
+                                            <TableCell>{record.accountNumber}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
                 )}
             </Box>
             <Snackbar
@@ -210,13 +287,8 @@ const WithdrawPage = () => {
                 onClose={handleSnackbarClose}
                 anchorOrigin={{ vertical: isMobileView ? 'bottom' : 'top', horizontal: 'right' }}
                 style={{ marginTop: isMobileView && '48px' }}
-                sx={{
-                    '& .MuiPaper-root': {
-                        backgroundColor: theme.palette.background.default, // or any other color you prefer
-                    }
-                }}
             >
-                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                <Alert onClose={handleSnackbarClose} variant='filled' severity={snackbarSeverity} sx={{ width: '100%' }}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

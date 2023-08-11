@@ -13,7 +13,7 @@ export default async (req, res) => {
     case 'GET':
       if (id) {
         try {
-          const product = await Product.findById(id)
+          const product = await Product.find({}).sort({ price: 1 });
           if (!product) {
             return res.status(404).json({ error: 'Product not found' })
           }

@@ -41,7 +41,7 @@ const TopUpPage = ({ open, onClose }) => {
                 'Content-Type': 'application/json'
             }
 
-            const response = await axios.post('/api/transaction/initiate', data, { headers: headerss });
+            const response = await axios.post('/api/transaction/initiate' , data, { headers: headerss });
 
             const headers = {
                 'x-token': 'll1y4w6b1dytbf787874qoz4',

@@ -3,11 +3,6 @@ import {
   Button,
   Typography,
   Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Modal,
   Box,
   TextField,
@@ -22,6 +17,8 @@ import MuiAlert from '@mui/material/Alert'
 function AdminProduct() {
   const [products, setProducts] = useState([])
   const [message, setMessage] = useState('')
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const [editingProduct, setEditingProduct] = useState({
     name: '',
@@ -58,9 +55,22 @@ function AdminProduct() {
     fetchProducts()
   }, [])
 
+  const handleDeleteClick = (id) => {
+    setProductToDelete(id);
+    setConfirmDeleteOpen(true);
+  }
+
   const handleEditClick = product => {
     setEditingProduct(product)
     setModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (productToDelete) {
+      handleDelete(productToDelete);
+    }
+    setConfirmDeleteOpen(false);
+    setProductToDelete(null);
   }
 
   const handleImageChange = e => {
@@ -143,7 +153,7 @@ function AdminProduct() {
                     </Button>
                   </Grid>
                   <Grid item xs={6}>
-                    <Button onClick={() => handleDelete(product._id)} variant='contained' color='error' fullWidth>
+                    <Button onClick={() => handleDeleteClick(product._id)} variant='contained' color='error' fullWidth>
                       Delete
                     </Button>
                   </Grid>
@@ -299,13 +309,36 @@ function AdminProduct() {
       </Modal>
       {message && <p>{message}</p>}
 
-      <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={() => setSnackbarOpen(false)}
-        sx={{
-          '& .MuiPaper-root': {
-            backgroundColor: theme.palette.background.default, // or any other color you prefer
-          }
-        }}
-      >
+      <Modal open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4
+          }}
+        >
+          <Typography variant='h6' component='h2'>
+            Confirm Deletion
+          </Typography>
+          <Typography variant='body1'>
+            Are you sure you want to delete this product?
+          </Typography>
+          <Box mt={2}>
+            <Button onClick={() => setConfirmDeleteOpen(false)} variant='contained'>
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmDelete} variant='contained' color='error' sx={{ ml: 2 }}>
+              Confirm Delete
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={() => setSnackbarOpen(false)}>
         <MuiAlert elevation={6} variant='filled' severity={snackbarSeverity}>
           {message}
         </MuiAlert>

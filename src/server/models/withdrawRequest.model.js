@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const accountDetailsSchema = new mongoose.Schema({
+const withdrawRequestSchema = new mongoose.Schema({
     userName: {
         type: String,
         required: true,
@@ -28,7 +28,7 @@ const accountDetailsSchema = new mongoose.Schema({
     },
     upiId: {
         type: String,
-        trim: true,
+        default: 'need to add',
     },
     amount: {
         type: Number,
@@ -45,13 +45,9 @@ const accountDetailsSchema = new mongoose.Schema({
     },
     processedDate: {
         type: Date,
-    },
-    notes: {
-        type: String,
-        trim: true,
-    },
+    }
 });
 
-const AccountDetails = mongoose.models.AccountDetails || mongoose.model('AccountDetails', accountDetailsSchema);
+const WithdrawRequest = mongoose.models.WithdrawRequest || mongoose.model('WithdrawRequest', withdrawRequestSchema);
 
-export default AccountDetails;
+export default WithdrawRequest;

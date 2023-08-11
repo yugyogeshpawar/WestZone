@@ -13,6 +13,7 @@ function Products() {
       try {
         const res = await fetch('/api/products')
         const data = await res.json()
+        console.log(data)
         setProducts(data)
       } catch (error) {
         console.error('An error occurred while fetching the products', error)

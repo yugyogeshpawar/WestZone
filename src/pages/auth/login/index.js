@@ -218,13 +218,8 @@ const LoginPage = () => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Add this line
-        sx={{
-          '& .MuiPaper-root': {
-              backgroundColor: theme.palette.background.default, // or any other color you prefer
-          }
-      }}
       >
-        <Alert onClose={handleSnackbarClose} severity='error' sx={{ width: '100%' }}>
+        <Alert onClose={handleSnackbarClose} severity='error' variant='filled'  sx={{ width: '100%' }}>
           {error || 'An unknown error occurred'}
         </Alert>
       </Snackbar>

@@ -3,6 +3,7 @@ import { AuthProvider, AuthContext } from 'src/@core/context/JWTContext'
 import LoadingScreen from 'src/@core/components/LoadingScreen'
 import useAuth from 'src/@core/hooks/useAuth'
 import { useTopUp } from 'src/@core/context/TopUpContext';
+import { useTheme, useMediaQuery } from '@mui/material';
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -33,7 +34,8 @@ const Dashboard = () => {
   const { user } = useAuth()
   const authContext = useContext(AuthContext)
   const { topUpOpen, setTopUpOpen } = useTopUp();
-
+  const theme = useTheme();
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
   console.log(topUpOpen)
 
   if (!authContext.isInitialized || !authContext.isAuthenticated) {
@@ -109,12 +111,15 @@ const Dashboard = () => {
               <Grid item xs={4} md={3}>
                 <SimpleCard title='Money making' icon={RequestQuoteIcon} link='/dashboards/money-making' />
               </Grid>
+              {isMobileView &&
+                <Grid item xs={4} md={3}>
+                  <SimpleCard title='Check Ins' icon={FactCheckIcon} link='/dashboards/check-ins' />
+                </Grid>
+              }
+
               <Grid item xs={4} md={3}>
-                <SimpleCard title='Check Ins' icon={FactCheckIcon} link='/dashboards/check-ins' />
-              </Grid>
-              {/* <Grid item xs={4} md={3}>
                 <SimpleCard title='Products' icon={FactCheckIcon} link='/dashboards/products' />
-              </Grid> */}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

@@ -108,7 +108,11 @@ const InvitationPage = () => {
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         message='Invitation link copied to clipboard!'
-        style={{ background: 'green', color: '#ffffff' }}
+        sx={{
+          '& .MuiPaper-root': {
+              backgroundColor: theme.palette.background.default, // or any other color you prefer
+          }
+      }}
       />
     </Box>
   );

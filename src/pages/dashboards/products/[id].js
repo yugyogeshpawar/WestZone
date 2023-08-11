@@ -18,7 +18,8 @@ import {
   Snackbar,
   Alert,
   IconButton,
-  Rating
+  Rating,
+  useTheme
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import ArrowBack from '@mui/icons-material/ArrowBack'
@@ -31,6 +32,7 @@ const ProductImage = styled('img')({
 })
 
 const ProductPage = () => {
+  const theme = useTheme();
   const router = useRouter()
   const { id } = router.query
   const { user } = useAuth()
@@ -176,10 +178,15 @@ const ProductPage = () => {
                 </Dialog>
                 <Snackbar
                   open={snackbarOpen}
-                  sx={{ marginTop: '50px' }}
                   autoHideDuration={6000}
                   onClose={handleSnackbarClose}
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  sx={{
+                    '& .MuiPaper-root': {
+                      backgroundColor: theme.palette.background.default, // or any other color you prefer
+                      marginTop: '50px'
+                    }
+                  }}
                 >
                   <Alert onClose={handleSnackbarClose} severity={snackbarType} sx={{ width: '100%' }}>
                     {snackbarMessage}

@@ -299,7 +299,13 @@ function AdminProduct() {
       </Modal>
       {message && <p>{message}</p>}
 
-      <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={() => setSnackbarOpen(false)}>
+      <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={() => setSnackbarOpen(false)}
+        sx={{
+          '& .MuiPaper-root': {
+            backgroundColor: theme.palette.background.default, // or any other color you prefer
+          }
+        }}
+      >
         <MuiAlert elevation={6} variant='filled' severity={snackbarSeverity}>
           {message}
         </MuiAlert>

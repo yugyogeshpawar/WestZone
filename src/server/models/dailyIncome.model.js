@@ -1,5 +1,4 @@
 // src/server/models/dailyIncome.model.js
-``
 import mongoose from 'mongoose';
 
 const dailyIncomeSchema = new mongoose.Schema({

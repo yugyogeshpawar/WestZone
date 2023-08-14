@@ -9,6 +9,34 @@ const PaymentCheck = () => {
     const [transactionStatus, setTransactionStatus] = useState(null);
 
 
+  
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const verifyPayment = async (partnerId) => {
+        try {
+
+            const response = await axios.post('https://secure.sharkpe.in/api/v1/orderStatus', {
+                partner_id: partnerId,
+                mode: 'payin' //payin, payout
+            }, {
+                headers: {
+                    'x-token': 'll7s4cwt1f47bf7878dn4pad' // replace with your actual token
+                }
+            });
+            console.log(response.data);
+            if (response.status === 200 && response.data.order_status === 'success') {
+                console.log('Payment verified successfully!');
+                await updateTransaction(partnerId, response.data.transaction_id);
+                setTransactionStatus('successful');
+            } else {
+                setTransactionStatus('failed');
+                window.open("https://www.westzone.store", "_blank");
+            }
+        } catch (error) {
+            console.error('Error verifying the payment: ', error);
+        }
+    };
+
     useEffect(() => {
         const fetchLatestTransaction = async () => {
             console.log('Fetching latest transaction...');
@@ -38,32 +66,7 @@ const PaymentCheck = () => {
         };
 
         fetchLatestTransaction();
-    }, []);
-
-    const verifyPayment = async (partnerId) => {
-        try {
-
-            const response = await axios.post('https://secure.sharkpe.in/api/v1/orderStatus', {
-                partner_id: partnerId,
-                mode: 'payin' //payin, payout
-            }, {
-                headers: {
-                    'x-token': 'll1y4w6b1dytbf787874qoz4' // replace with your actual token
-                }
-            });
-            console.log(response.data);
-            if (response.status === 200 && response.data.order_status === 'success') {
-                console.log('Payment verified successfully!');
-                await updateTransaction(partnerId, response.data.transaction_id);
-                setTransactionStatus('successful');
-            } else {
-                setTransactionStatus('failed');
-                window.open("https://www.westzone.store", "_blank");
-            }
-        } catch (error) {
-            console.error('Error verifying the payment: ', error);
-        }
-    };
+    }, [verifyPayment]);
 
     const updateTransaction = async (partnerId, transaction_id) => {
         console.log('Updating the transaction...');

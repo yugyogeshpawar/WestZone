@@ -122,15 +122,22 @@ const checkOneTime = async () => {
         const transactions = await Transaction.find({
             status: { $nin: ['successful', 'failed'] }
         });
-        console.log("transactions:", transactions);
+
+        console.log("transactions:", transactions.length);
 
         for (const transaction of transactions) {
-            const paymentStatus = await checkPaymentStatus(transaction);
+            try {
+                console.log("transaction:", transaction);
+                const paymentStatus = await checkPaymentStatus(transaction);
 
-            if (paymentStatus === 'successful') {
-                await updateTransactionStatus(transaction._id, 'successful');
-            } else if (paymentStatus === 'failed') {
-                await updateTransactionStatus(transaction._id, 'failed');
+                if (paymentStatus === 'successful') {
+                    await updateTransactionStatus(transaction._id, 'successful');
+                } else if (paymentStatus === 'failed') {
+                    await updateTransactionStatus(transaction._id, 'failed');
+                }
+            }
+            catch (error) {
+                console.error('Error in cron job:', error);
             }
         }
     } catch (error) {
@@ -139,20 +146,30 @@ const checkOneTime = async () => {
 };
 
 async function checkPaymentStatus(transaction) {
-    const response = await axios.post('https://secure.sharkpe.in/api/v1/orderStatus', {
-        partner_id: transaction.partner_id,
-        mode: 'payin'
-    }, {
-        headers: {
-            'x-token': 'll1y4w6b1dytbf787874qoz4'
-        }
-    });
+    console.log("called checkPaymentStatus method in transaction");
 
-    if (response.status === 200 && response.data.order_status === 'success') {
-        return 'successful';
-    } else {
+    try {
+        const response = await axios.post('https://secure.sharkpe.in/api/v1/orderStatus', {
+            partner_id: transaction.partner_id,
+            mode: 'payin'
+        }, {
+            headers: {
+                'x-token': 'll7s4cwt1f47bf7878dn4pad'
+            }
+        });
+
+        if (response.status === 200 && response.data.order_status === 'success') {
+            return 'successful';
+        } else {
+            return 'failed';
+        }
+    }
+    catch (error) {
+        console.error('Error in checkPaymentStatus:', error);
+
         return 'failed';
     }
+
 }
 
 async function updateTransactionStatus(transactionId, status) {

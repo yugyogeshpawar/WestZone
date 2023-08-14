@@ -70,7 +70,7 @@ const MyProjects = () => {
             {/* Price and Payment Status */}
             <CardActions style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant='subtitle2' style={{ marginRight: '8px' }}>
-                Invested Amount: ${project.investPackage}
+                Invested Amount: ₹{project.investPackage}
               </Typography>
               <Button variant='outlined' disabled={project.paymentStatus === "completed"}>
                 {project.paymentStatus}

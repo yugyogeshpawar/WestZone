@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
@@ -44,7 +52,7 @@ const HistoryPage = () => {
                 <TableCell component='th' scope='row'>
                   {index + 1}
                 </TableCell>
-                <TableCell>{row.date}</TableCell>
+                <TableCell>{formatDate(row.date)}</TableCell>
                 <TableCell align='right'>{row.amount}</TableCell>
                 <TableCell align='right'>{row.investPackage}</TableCell>
                 <TableCell>{row.paymentStatus}</TableCell>

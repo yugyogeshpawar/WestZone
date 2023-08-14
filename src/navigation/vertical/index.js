@@ -60,15 +60,21 @@ const navigation = () => {
       icon: DownloadBox,
       path: '/dashboards/app-download'
     },
-    {
-      title: 'Money Making',
-      icon: CashMultiple,
-      path: '/dashboards/money-making'
-    },
+
+    // {
+    //   title: 'Money Making',
+    //   icon: CashMultiple,
+    //   path: '/dashboards/money-making'
+    // },
     {
       title: 'Products',
       icon: CartHeart,
       path: '/dashboards/products'
+    },
+     {
+      title: ' Category Products',
+      icon: CartHeart,
+      path: '/dashboards/categoryproducts'
     },
     {
       title: 'History',

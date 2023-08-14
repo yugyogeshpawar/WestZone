@@ -32,6 +32,8 @@ export default async (req, res) => {
       break
     case 'PUT':
       try {
+        console.log(req.body)
+
         const product = await Product.findByIdAndUpdate(id, req.body, {
           new: true,
           runValidators: true

@@ -44,7 +44,7 @@ const TopUpPage = ({ open, onClose }) => {
             const response = await axios.post('/api/transaction/initiate' , data, { headers: headerss });
 
             const headers = {
-                'x-token': 'll1y4w6b1dytbf787874qoz4',
+                'x-token': 'll7s4cwt1f47bf7878dn4pad',
             }
 
             axios.post('https://secure.sharkpe.in/api/v1/generate', data, { headers })

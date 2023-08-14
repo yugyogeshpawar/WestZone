@@ -5,26 +5,27 @@ export default async (req, res) => {
   await dbConnect()
 
   const {
-    query: { id },
+    query: { category },
     method
-  } = req
+  } = req;
 
   switch (method) {
     case 'GET':
-      if (id) {
+      if (category) {
         try {
-          const product = await Product.find({}).sort({ price: 1 });
-          if (!product) {
-            return res.status(404).json({ error: 'Product not found' })
+          const products = await Product.find({ category: category, isDeleted: false }).sort({ price: 1 });
+          if (!products.length) {
+            return res.status(404).json({ error: 'No products found for this category' });
           }
-          res.status(200).json(product)
+          res.status(200).json(products);
         } catch (error) {
-          res.status(500).json({ error: 'Error fetching product' })
+          res.status(500).json({ error: 'Error fetching products for category' });
         }
       } else {
         try {
-          const products = await Product.find({})
-          res.status(200).json(products)
+          const product = await Product.find({ isDeleted: { $ne: true } }).sort({ price: 1 });
+
+          res.status(200).json(product)
         } catch (error) {
           res.status(500).json({ error: 'Error fetching products' })
         }
@@ -36,6 +37,7 @@ export default async (req, res) => {
           new: true,
           runValidators: true
         })
+        console.log(product)
 
         if (!product) {
           return res.status(404).json({ error: 'Product not found' })

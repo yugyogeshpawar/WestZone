@@ -36,7 +36,7 @@ const withdrawRequestSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'processed', 'failed'],
+        enum: ['pending', 'processed', 'failed', 'success'],
         default: 'pending',
     },
     requestDate: {

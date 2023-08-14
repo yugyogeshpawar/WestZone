@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { TextField, Button, Typography, Container } from '@mui/material'
 import { useRouter } from 'next/router'
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+
 
 function AdminProduct() {
   const router = useRouter()
@@ -18,8 +20,11 @@ function AdminProduct() {
     paragraph2: '',
     paragraph3: '',
     paragraph4: '',
-    paragraph5: ''
+    paragraph5: '',
+    category: ''
   })
+
+  const categories = ['Authentication', 'NA-Market', 'Super-Series'];
 
   const [message, setMessage] = useState('')
 
@@ -85,7 +90,8 @@ function AdminProduct() {
           paragraph2: '',
           paragraph3: '',
           paragraph4: '',
-          paragraph5: ''
+          paragraph5: '',
+          category: ''
         })
       }
     }
@@ -240,6 +246,23 @@ function AdminProduct() {
           value={product.paragraph5}
           onChange={handleChange}
         />
+        <FormControl variant="outlined" margin="normal" fullWidth>
+          <InputLabel id="category-label">Category</InputLabel>
+          <Select
+            labelId="category-label"
+            label="Category"
+            name="category"
+            value={product.category || ''}
+            onChange={handleChange}
+            required
+          >
+            {categories.map((category, index) => (
+              <MenuItem key={index} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Button type='submit' variant='contained' color='primary' fullWidth>
           Add Product
         </Button>

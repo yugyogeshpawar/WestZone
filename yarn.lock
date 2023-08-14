@@ -1046,6 +1046,13 @@
   "resolved" "https://registry.npmjs.org/astral-regex/-/astral-regex-2.0.0.tgz"
   "version" "2.0.0"
 
+"async@^2.5.0":
+  "integrity" "sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA=="
+  "resolved" "https://registry.npmjs.org/async/-/async-2.6.4.tgz"
+  "version" "2.6.4"
+  dependencies:
+    "lodash" "^4.17.14"
+
 "asynckit@^0.4.0":
   "integrity" "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="
   "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
@@ -3108,7 +3115,7 @@
   "resolved" "https://registry.npmjs.org/lodash.truncate/-/lodash.truncate-4.4.2.tgz"
   "version" "4.4.2"
 
-"lodash@^4.17.21":
+"lodash@^4.17.14", "lodash@^4.17.20", "lodash@^4.17.21":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -3284,7 +3291,15 @@
   optionalDependencies:
     "saslprep" "^1.0.3"
 
-"mongoose@^7.4.1":
+"mongoose-sequence@^5.3.1":
+  "integrity" "sha512-kQB1ctCdAQT8YdQzoHV0CpBRsO4RNVy03SOkzM6TQKBbGBs1ZgVS4UlKsuvBPaiPt9q5tKgQZvorGJ1awbHDqA=="
+  "resolved" "https://registry.npmjs.org/mongoose-sequence/-/mongoose-sequence-5.3.1.tgz"
+  "version" "5.3.1"
+  dependencies:
+    "async" "^2.5.0"
+    "lodash" "^4.17.20"
+
+"mongoose@^7.4.1", "mongoose@>=4":
   "integrity" "sha512-o3E5KHHiHdaiwCJG3+9r70sncRKki71Ktf/TfXdW6myu+53rtZ56uLl5ylkQiCf60V3COJuOeekcxXVsjQ7cBA=="
   "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-7.4.1.tgz"
   "version" "7.4.1"

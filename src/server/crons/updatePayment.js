@@ -39,7 +39,7 @@ async function checkPaymentStatus(transaction) {
         mode: 'payin'
     }, {
         headers: {
-            'x-token': 'll1y4w6b1dytbf787874qoz4'
+            'x-token': 'll7s4cwt1f47bf7878dn4pad'
         }
     });
 

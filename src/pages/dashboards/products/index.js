@@ -40,7 +40,7 @@ function Products() {
   return (
     <div>
       <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom component='div' sx={{ paddingBottom: '8px' }}>
-        Products
+        Products  
       </Typography>
       <Grid container spacing={2}>
         {products.map(product => (

@@ -44,11 +44,20 @@ const WithdrawPage = () => {
         if (!amount || parseFloat(amount) <= 0) {
             setSnackbarMessage('Please enter a valid amount to withdraw.');
             setOpenSnackbar(true);
-
+    
             return;
         }
+        
+        if (user.totalearning < parseFloat(amount)) {
+            setSnackbarMessage('Your total earnings are less than the requested withdrawal amount.');
+            setOpenSnackbar(true);
+    
+            return;
+        }
+    
         setModalOpen(true);
     };
+    
 
     const handleConfirmWithdraw = async () => {
         try {

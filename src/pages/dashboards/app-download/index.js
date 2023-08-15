@@ -11,14 +11,26 @@ const AppDownloadPage = () => {
   return (
     <Paper style={{ padding: isMobileView ? '6px' : '16px', borderRadius: '8px' }}>
       {/* App Image */}
-      <div style={{ display: 'flex', width: 'fit-content', boxShadow: '0px 0px 2px #aaaaaa', borderRadius: '14px', marginBottom: '10px' }}>
+      <div
+        style={{
+          display: 'flex',
+          width: 'fit-content',
+          boxShadow: '0px 0px 2px #aaaaaa',
+          borderRadius: '14px',
+          marginBottom: '10px'
+        }}
+      >
         <img src='/images/logo/logo_small.png' alt='App' style={{ width: '100%', maxWidth: '60px', height: 'auto' }} />
       </div>
       {/* App Title */}
-      <Typography variant='h4' color="textPrimary">Westzone</Typography>
+      <Typography variant='h4' color='textPrimary'>
+        Westzone
+      </Typography>
 
       {/* App Subtitle */}
-      <Typography variant='subtitle1' color="textSecondary">Contains ads In-app purchases</Typography>
+      <Typography variant='subtitle1' color='textSecondary'>
+        Contains ads In-app purchases
+      </Typography>
 
       <Box mt={4} display='flex' justifyContent='space-between' alignItems='center'>
         <Button
@@ -34,12 +46,14 @@ const AppDownloadPage = () => {
 
       {/* Coming Soon Message */}
       <Typography variant='h5' style={{ marginTop: '16px', color: theme.palette.primary.main }}>
-        Coming Soon!
+        Coming Soon! On Play Store
       </Typography>
 
       {/* Optional: Email Subscription for Notification */}
       <Box mt={2}>
-        <Typography variant='body2' color="textSecondary">Get notified when the app is available:</Typography>
+        <Typography variant='body2' color='textSecondary'>
+          Get notified when the app is available:
+        </Typography>
         <Box display='flex' alignItems='center' mt={1}>
           <TextField variant='outlined' label='Your Email' size='small' style={{ flexGrow: 1 }} />
           <Button variant='contained' color='primary' style={{ marginLeft: '8px' }}>
@@ -51,7 +65,7 @@ const AppDownloadPage = () => {
       {/* Safety Certification */}
       <Box display='flex' alignItems='center' mt={2}>
         <SafetyIcon color='primary' />
-        <Typography variant='body2' color="textSecondary" style={{ marginLeft: '8px' }}>
+        <Typography variant='body2' color='textSecondary' style={{ marginLeft: '8px' }}>
           Safety Certification
         </Typography>
       </Box>
@@ -62,7 +76,7 @@ const AppDownloadPage = () => {
           <Grid item xs={12} md={6}>
             <Box display='flex' alignItems='center'>
               <Rating name='app-rating' value={4.5} precision={0.5} readOnly />
-              <Typography variant='body2' color="textSecondary" style={{ marginLeft: '8px' }}>
+              <Typography variant='body2' color='textSecondary' style={{ marginLeft: '8px' }}>
                 4.5 (12345)
               </Typography>
             </Box>
@@ -72,21 +86,26 @@ const AppDownloadPage = () => {
               Rate and Review
             </Button>
           </Grid>
+          <Grid item xs={12} md={6}>
+            <a href='/westzoneapk/westzone.apk' download>
+              <Button variant='contained' color='primary'>
+                Download APK
+              </Button>
+            </a>
+          </Grid>
         </Grid>
       </Box>
 
       {/* Information Section */}
       <Card variant='outlined' style={{ marginTop: '16px' }}>
         <CardContent>
-          <Typography variant='h6' color="textPrimary">Additional Information</Typography>
+          <Typography variant='h6' color='textPrimary'>
+            Additional Information
+          </Typography>
           <Box mt={2}>
             {/* Replace the text with actual app information */}
-            <Typography variant='body2' color="textSecondary">
+            <Typography variant='body2' color='textSecondary'>
               Version: 1.0.0
-              <br />
-              Size: 30 MB
-              <br />
-              Expected Release: 14-Aug-2023
               <br />
               Development: Westzone pvt. ltd.
             </Typography>

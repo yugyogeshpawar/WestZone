@@ -21,11 +21,9 @@ export default async (req, res) => {
                     }).sort('-createdAt');
 
                     if (!transaction) {
-                        setTimeout(checkOneTime, 44);
 
                         return res.status(404).json({ error: 'No transaction found for this user' });
                     }
-                    setTimeout(checkOneTime, 600);
                     res.status(200).json(transaction);
                 } catch (error) {
                     consle.log("Error details:", error);
@@ -106,107 +104,5 @@ export default async (req, res) => {
 
 
 
-const LEVEL_INCOMES = {
-    1: 0.10,  // 10% for level 1
-    2: 0.05,  // 5% for level 2
-    3: 0.02   // 2% for level 3
-};
 
-// This will run every day at 2:30 AM
-const checkOneTime = async () => {
-    try {
-        await dbConnect();
-        console.log("called checkOneTime method in transaction");
 
-        // Fetch all transactions that are initiated and not successful
-        const transactions = await Transaction.find({
-            status: { $nin: ['successful', 'failed'] }
-        });
-
-        console.log("transactions:", transactions.length);
-
-        for (const transaction of transactions) {
-            try {
-                console.log("transaction:", transaction);
-                const paymentStatus = await checkPaymentStatus(transaction);
-
-                if (paymentStatus === 'successful') {
-                    await updateTransactionStatus(transaction._id, 'successful');
-                } else if (paymentStatus === 'failed') {
-                    await updateTransactionStatus(transaction._id, 'failed');
-                }
-            }
-            catch (error) {
-                console.error('Error in cron job:', error);
-            }
-        }
-    } catch (error) {
-        console.error('Error in cron job:', error);
-    }
-};
-
-async function checkPaymentStatus(transaction) {
-    console.log("called checkPaymentStatus method in transaction");
-
-    try {
-        const response = await axios.post('https://secure.sharkpe.in/api/v1/orderStatus', {
-            partner_id: transaction.partner_id,
-            mode: 'payin'
-        }, {
-            headers: {
-                'x-token': 'll7s4cwt1f47bf7878dn4pad'
-            }
-        });
-
-        if (response.status === 200 && response.data.order_status === 'success') {
-            return 'successful';
-        } else {
-            return 'failed';
-        }
-    }
-    catch (error) {
-        console.error('Error in checkPaymentStatus:', error);
-
-        return 'failed';
-    }
-
-}
-
-async function updateTransactionStatus(transactionId, status) {
-    console.log("called updateTransactionStatus method in transaction");
-    console.log("transactionId:", transactionId, "status:", status);
-    const transaction = await Transaction.findByIdAndUpdate(transactionId, { status: status }, { new: true });
-
-    if (status === 'successful') {
-        const user = await User.findOne({ email: transaction.email });
-        if (user) {
-            user.walletBalance += transaction.amount;
-            await user.save();
-            await updateLevelIncome(user, transaction.amount, 1);
-        }
-    }
-}
-
-async function updateLevelIncome(user, amount, level) {
-    if (level > 3 || !user.sponsorId) return;
-
-    const sponsor = await User.findOne({ username: user.sponsorId });
-    if (!sponsor) return;
-
-    const income = amount * LEVEL_INCOMES[level];
-    sponsor.walletBalance += income;
-    await sponsor.save();
-
-    const refIncome = new RefIncome({
-        sponsorId: sponsor.username,
-        referredUserId: user.username,
-        amount: income,
-        investAmount: amount,
-        username: user.username,
-        level: level,
-        status: true
-    });
-    await refIncome.save();
-
-    await updateLevelIncome(sponsor, amount, level + 1);
-}

@@ -71,9 +71,9 @@ export default async (req, res) => {
         await distributeIncome();
         if (!isCronScheduled) {
             // Schedule the task to run every day at 6 AM
-            cron.schedule('0 6 * * *', distributeIncome);
+            cron.schedule('0 10 * * *', distributeIncome);
             isCronScheduled = true; // Set the flag to true
-            res.status(200).json({ message: 'Task scheduled to run every day at 6 AM' });
+            res.status(200).json({ message: 'Task scheduled to run every day at 10 AM' });
         } else {
             res.status(200).json({ message: 'Task is already scheduled to run.' });
         }

@@ -48,6 +48,11 @@ const MyProjects = () => {
         {projects.map(project => (
           <Card key={project.productId} sx={{ width: { xs: '100%', sm: 'calc(50% - 16px)', md: 'calc(33.33% - 16px)' } }}>
             <CardContent>
+              {/* Project Image */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                <img src={project.image} alt={project.userName} width={isMobileView ? '100%' : '50%'} style={{ borderRadius: '8px' }} />
+              </div>
+
               {/* Project Icon and Subject */}
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                 <SubjectIcon />

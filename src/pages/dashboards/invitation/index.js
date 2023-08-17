@@ -4,6 +4,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import QRCode from 'qrcode.react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import useAuth from 'src/@core/hooks/useAuth';
+import Alert from '@mui/material/Alert';
+
 
 const InvitationPage = () => {
   const { user } = useAuth();
@@ -103,16 +105,11 @@ const InvitationPage = () => {
         </Grid>
       </Grid>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        message='Invitation link copied to clipboard!'
-        sx={{
-          '& .MuiPaper-root': {
-              backgroundColor: theme.palette.background.default, // or any other color you prefer
-          }
-      }}
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity='success' variant='filled'>
+            Invitation link copied to clipboard!
+          </Alert>
+        </Snackbar>
       />
     </Box>
   );

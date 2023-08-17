@@ -1,36 +1,34 @@
-import React from 'react'
-import { Typography } from '@mui/material'
-import { useTheme, useMediaQuery } from '@mui/material'
+import { Container, Typography, Button } from '@mui/material'
+import { Box } from '@mui/system'
+import Image from 'next/image'
 
-// Import the JSON content
-import moneyMakingContent from '../money_making_content.json'
-
-const MoneyMakingPage = () => {
-  const { title, description, images } = moneyMakingContent
-  const theme = useTheme()
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
-
+export default function ComingSoon() {
   return (
-    <div style={{ padding: isMobileView ? '0px' : '16px' }}>
-      {/* Title */}
-      <Typography variant='h4'>{title}</Typography>
-
-      {/* Description */}
-      <Typography variant='body1'>{description}</Typography>
-
-      {/* Images */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Image ${index + 1}`}
-            style={{ width: '300px', height: '200px', objectFit: 'cover' }}
-          />
-        ))}
-      </div>
-    </div>
+    <Container maxWidth='lg' style={{ height:'100%', position: 'relative' }}>
+      {/* <Image src='/images/sample.jpg' alt='Background image' layout='fill' objectFit='cover' quality={100} /> */}
+      <Box
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='center'
+        height='100%'
+        backdropFilter='blur(4px)'
+        
+        // sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      >
+        <Typography variant='h2' color='primary' align='center'>
+          Crypto Project
+        </Typography>
+        <Typography variant='h4' color='secondary' align='center' gutterBottom>
+          Coming Soon
+        </Typography>
+        <Typography variant='body1' color='textSecondary' align='center' paragraph>
+          Join our mailing list and be the first to know about our exciting new crypto project.
+        </Typography>
+        <Button variant='contained' color='primary'>
+          Subscribe
+        </Button>
+      </Box>
+    </Container>
   )
 }
-
-export default MoneyMakingPage

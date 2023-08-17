@@ -14,7 +14,8 @@ const SimpleCard = ({ title, icon: IconComponent, link }) => {
           backgroundColor: 'info.main',
           '@media (max-width: 600px)': {
             padding: theme => `${theme.spacing(2, 2, 1)} !important`,
-            height: '100%'
+            height: '100%',
+            minHeight: '100px'
           }
         }}
       >
@@ -24,6 +25,8 @@ const SimpleCard = ({ title, icon: IconComponent, link }) => {
             display: 'flex',
             flexDirection: 'column', // Set flex direction to column
             alignItems: 'center', // Center align items horizontally
+            justifyContent: 'center', // Center align items vertically
+            height: '100%', // Use the full height of the parent container
             '@media (max-width: 600px)': {
               padding: theme => `${theme.spacing(2, 2, 1)} !important`
             }

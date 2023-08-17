@@ -1,27 +1,20 @@
 // ** Icon imports
 import Login from 'mdi-material-ui/Login'
-import Table from 'mdi-material-ui/Table'
-import CubeOutline from 'mdi-material-ui/CubeOutline'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import Gift from 'mdi-material-ui/Gift'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
 import AccountPlus from 'mdi-material-ui/AccountPlus'
 import Projector from 'mdi-material-ui/Projector'
 import FaceAgent from 'mdi-material-ui/FaceAgent'
 import AccountCog from 'mdi-material-ui/AccountCog'
 import Cog from 'mdi-material-ui/Cog'
-import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import MicrosoftTeams from 'mdi-material-ui/MicrosoftTeams'
 import DownloadBox from 'mdi-material-ui/DownloadBox'
 import AccountCircle from 'mdi-material-ui/AccountCircle'
-import CheckDecagramOutline from 'mdi-material-ui/CheckDecagramOutline'
-import CashMultiple from 'mdi-material-ui/CashMultiple'
 import ClipboardTextClockOutline from 'mdi-material-ui/ClipboardTextClockOutline'
 import CartHeart from 'mdi-material-ui/CartHeart'
 import CashFast from 'mdi-material-ui/CashFast'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
-import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 
 const navigation = () => {
   return [
@@ -30,11 +23,12 @@ const navigation = () => {
       icon: HomeOutline,
       path: '/dashboard'
     },
-    {
-      title: 'Gift Receipt',
-      icon: Gift,
-      path: '/dashboards/gifts'
-    },
+    
+    // {
+    //   title: 'Gift Receipt',
+    //   icon: Gift,
+    //   path: '/dashboards/gifts'
+    // },
     {
       title: 'Invitation',
       icon: AccountPlus,
@@ -68,11 +62,6 @@ const navigation = () => {
     // },
     {
       title: 'Products',
-      icon: CartHeart,
-      path: '/dashboards/products'
-    },
-     {
-      title: ' Category Products',
       icon: CartHeart,
       path: '/dashboards/categoryproducts'
     },

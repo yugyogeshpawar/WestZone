@@ -13,6 +13,7 @@ import {
   Grid
 } from '@mui/material'
 
+
 function Users() {
   const [users, setUsers] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
@@ -72,12 +73,20 @@ function Users() {
     handleClose()
   }
 
+  const handleDashboard = user => {
+    console.log('user', user)
+
+    // window.location.href = `/dashboard/${user._id}`
+  }
+
   return (
     <div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>Dashboard</TableCell>
+              <TableCell>No.</TableCell>
               <TableCell>Username</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Mobile Number</TableCell>
@@ -98,8 +107,14 @@ function Users() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map(user => (
+            {users.map((user, index) => (
               <TableRow key={user._id}>
+                <TableCell>
+                  <Button variant='contained' color='primary' onClick={() => handleDashboard(user)}>
+                    Dashboard
+                  </Button>
+                </TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.mobileNumber}</TableCell>
@@ -132,6 +147,11 @@ function Users() {
           <h2>Edit User</h2>
           {selectedUser && (
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Button variant='contained' color='primary' onClick={handleSave}>
+                  Dashboard
+                </Button>
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   label='Username'

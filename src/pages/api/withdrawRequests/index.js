@@ -51,13 +51,15 @@ export default async (req, res) => {
                         return res.status(404).json({ message: 'Account details not found for this user' });
                     }
 
+                    const currentDate = new Date();
+
                     // Merge the fetched account details with the withdrawal request data
                     const withdrawRequest = {
                         ...req.body,
                         ...userAccountDetails.toObject(), // Convert the mongoose document to a plain object
-                        userName: username
+                        userName: username,
+                        requestDate: currentDate
                     };
-                    console.log("withdrawRequest:", withdrawRequest);
 
                     const newWithdrawRequest = new WithdrawRequest(withdrawRequest);
                     await newWithdrawRequest.save();

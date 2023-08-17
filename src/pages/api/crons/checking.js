@@ -50,8 +50,8 @@ async function updateLevelIncome(user, amount, level) {
   if (!sponsor) return
 
   const income = amount * LEVEL_INCOMES[level]
-  console.log('income', income, amount, LEVEL_INCOMES[level]);
   sponsor.walletBalance += income
+  sponsor.totalEarning += income
   await sponsor.save()
 
   const refIncome = new RefIncome({
@@ -87,11 +87,12 @@ const checkOneTime = async () => {
   const transactions = await Transaction.find({
     status: { $nin: ['successful', 'failed'] }
   })
+  console.log('transactions:', transactions)
 
   for (const transaction of transactions) {
     const paymentStatus = await checkPaymentStatus(transaction)
 
-    if (['successful', 'failed'].includes(paymentStatus)) {
+    if (['successful', 'failed', 'pending'].includes(paymentStatus)) {
       await updateTransactionStatus(transaction._id, paymentStatus)
     }
   }

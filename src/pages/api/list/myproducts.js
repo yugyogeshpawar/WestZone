@@ -72,9 +72,9 @@ export default async (req, res) => {
                     const productsWithImages = [];
 
                     for (const product of userProducts) {
-                        console.log('product', product);
-                        const productDetail = await Product.findOne({ productId: product.productId });
-
+                        const productDetail = await Product.findOne({ _id: product.productId });
+                        console.log(productDetail);
+                        
                         // Assuming the product model has an imageUrl field
                         if (productDetail) {
                             productsWithImages.push({ ...product._doc, image: productDetail.image });

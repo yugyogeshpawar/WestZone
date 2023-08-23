@@ -23,7 +23,7 @@ const navigation = () => {
       icon: HomeOutline,
       path: '/dashboard'
     },
-    
+
     // {
     //   title: 'Gift Receipt',
     //   icon: Gift,
@@ -75,37 +75,39 @@ const navigation = () => {
       icon: CashFast,
       path: '/dashboards/withdraw'
     },
-    {
-      sectionTitle: 'User'
-    },
-    {
-      title: 'Account',
-      icon: AccountCog,
-      path: '/account'
-    },
-    {
-      title: 'Profile',
-      icon: AccountCircle,
-      path: '/pages/login'
-    },
-    {
-      title: 'Settings',
-      icon: Cog,
-      path: '/pages/login'
-    },
+
+    // {
+    //   sectionTitle: 'User'
+    // },
+
+    // {
+    //   title: 'Account',
+    //   icon: AccountCog,
+    //   path: '/account'
+    // },
+    // {
+    //   title: 'Profile',
+    //   icon: AccountCircle,
+    //   path: '/pages/login'
+    // },
+    // {
+    //   title: 'Settings',
+    //   icon: Cog,
+    //   path: '/pages/login'
+    // },
     {
       sectionTitle: 'Pages'
     },
     {
       title: 'Login',
       icon: Login,
-      path: '/pages/login',
+      path: '/auth/login',
       openInNewTab: true
     },
     {
       title: 'Register',
       icon: AccountPlusOutline,
-      path: '/pages/register',
+      path: '/auth/register',
       openInNewTab: true
     },
     {

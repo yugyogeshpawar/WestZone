@@ -7,7 +7,7 @@ import {
   CardMedia,
   Typography,
   Grid,
-  Rating,
+  Box,
   Chip,
   CardActions,
   Button,
@@ -40,7 +40,7 @@ function Products() {
   return (
     <div>
       <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom component='div' sx={{ paddingBottom: '8px' }}>
-        Products  
+        Products
       </Typography>
       <Grid container spacing={2}>
         {products.map(product => (
@@ -55,7 +55,8 @@ function Products() {
                     position: 'absolute',
                     top: '8px',
                     right: '8px',
-                    backgroundColor: 'rgba(255,255,255,0.7)',
+                    color: 'white',
+                    backgroundColor: '#f33131',
                     zIndex: 1 // Ensure the Chip is displayed on top
                   }}
                 />
@@ -67,7 +68,7 @@ function Products() {
                     position: 'absolute',
                     top: '8px',
                     right: '8px',
-                    backgroundColor: 'rgba(255,255,255,0.7)',
+                    backgroundColor: '#4dc14d',
                     zIndex: 1 // Ensure the Chip is displayed on top
                   }}
                 />
@@ -92,12 +93,12 @@ function Products() {
               </CardContent>
               <CardActions sx={{ padding: '8px' }}>
                 <Link href={`/dashboards/products/${product._id}`} passHref sx={{ width: '100%' }}>
-                  <Button variant='contained' size='small' color='primary'>
-                    View Product
+                  <Button variant='contained' size='small' color='primary' disabled={product.quantity == 0}>
+                    View Products
                   </Button>
                 </Link>
               </CardActions>
-              {product.timer && new Date(product.timer) > new Date() && <Timer targetDate={product.timer} />}
+              <Box>{product.timer && new Date(product.timer) > new Date() && <Timer targetDate={product.timer} />}</Box>
             </Card>
           </Grid>
         ))}

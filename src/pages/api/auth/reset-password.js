@@ -1,48 +1,50 @@
 import connectDB from '../../../server/utils/dbConnect'
 import User from '../../../server/models/user.model'
+import ResetPassword from 'src/server/models/resetPassword.model'
 import bcrypt from 'bcryptjs'
-import crypto from 'crypto'
 
 connectDB()
 
 export default async (req, res) => {
-  if (req.method === 'PUT') {
-    const { resetPasswordLink, newPassword } = req.body
+  if (req.method === 'POST') {
+    const { resetPasswordToken, newPassword } = req.body
 
-    if (resetPasswordLink) {
-      crypto.randomBytes(32, async (err, buffer) => {
-        if (err) {
-          return res.status(400).json({ error: 'Something went wrong. Try later.' })
-        }
+    // Check if resetPasswordToken and newPassword are provided
+    if (!resetPasswordToken || !newPassword) {
+      return res.status(400).json({ error: 'Invalid request. Token and new password are required.' })
+    }
 
-        const resetToken = buffer.toString('hex')
-        let user
+    try {
+      // Find the reset password document by the provided token
+      const resetDoc = await ResetPassword.findOne({ resetPasswordToken: resetPasswordToken })
+      console.log(resetDoc)
 
-        try {
-          user = await User.findOne({ resetPasswordLink })
-        } catch (error) {
-          return res.status(400).json({ error: 'Invalid or expired link.' })
-        }
+      // Check if reset token is valid or expired
+      if (!resetDoc || resetDoc.expireDate < Date.now()) {
+        return res.status(400).json({ error: 'Invalid or expired token.' })
+      }
 
-        if (!user) {
-          return res.status(400).json({ error: 'Invalid or expired link.' })
-        }
+      // Find the associated user
+      const user = await User.findById(resetDoc.userId)
 
-        const hashedPassword = await bcrypt.hash(newPassword, 12)
+      // Check if user exists
+      if (!user) {
+        return res.status(400).json({ error: 'User not found.' })
+      }
 
-        user.password = hashedPassword
-        user.resetPasswordLink = ''
+      // Update the user's password
+      const hashedPassword = await bcrypt.hash(newPassword, 12)
+      user.password = hashedPassword
+      await user.save()
 
-        try {
-          await user.save()
-        } catch (error) {
-          return res.status(400).json({ error: 'Error resetting user password.' })
-        }
+      // Remove the reset document since it's no longer needed
+      await ResetPassword.findByIdAndDelete(resetDoc._id)
 
-        res.status(200).json({ message: 'Password updated successfully.' })
-      })
-    } else {
-      return res.status(400).json({ error: 'Invalid request.' })
+      return res.status(200).json({ message: 'Password updated successfully.' })
+    } catch (error) {
+      console.error('Error in password reset:', error)
+
+      return res.status(500).json({ error: 'Internal server error.' })
     }
   } else {
     res.status(400).json({ error: 'Invalid request.' })

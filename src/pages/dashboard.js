@@ -31,13 +31,13 @@ import CartHeart from 'mdi-material-ui/CartHeart'
 import ClipboardTextClockOutline from 'mdi-material-ui/ClipboardTextClockOutline'
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import TopUpPage from 'src/pages/dashboards/recharge'
+import TopUpPageUPI from 'src/pages/dashboards/recharge'
 import Alert from '@mui/material/Alert'
 
 const Dashboard = () => {
   const { user } = useAuth()
   const router = useRouter()
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const authContext = useContext(AuthContext)
   const { topUpOpen, setTopUpOpen } = useTopUp()
   const invitationLink = `www.westzone.store/auth/register/?ref=${user.username}`
@@ -51,7 +51,7 @@ const Dashboard = () => {
   }
 
   const handleTopUpOpen = () => {
-    setLoading(true);
+    setLoading(true)
     setTopUpOpen(true)
   }
 
@@ -202,7 +202,7 @@ const Dashboard = () => {
           <News />
         </Grid> */}
       </Grid>
-      <TopUpPage open={topUpOpen} onClose={handleTopUpClose} />
+      <TopUpPageUPI open={topUpOpen} onClose={handleTopUpClose} />
     </ApexChartWrapper>
   )
 }

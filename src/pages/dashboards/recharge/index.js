@@ -45,12 +45,13 @@ const TopUpPage = ({ open, onClose }) => {
       const response = await axios.post('/api/transaction/initiate', data, { headers: headerss })
 
       const headers = {
-        'x-token': 'll7s4cwt1f47bf7878dn4pad'
+        'x-token': 'llgae3o51gh0bf7878ez1eke'
       }
 
       axios
         .post('https://secure.sharkpe.in/api/v1/generate', data, { headers })
         .then(response => {
+          console.log(response.data)
           setPaymentLink(response.data.payment_link)
         })
         .catch(error => {

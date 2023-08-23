@@ -33,13 +33,13 @@ async function checkPaymentStatus(transaction) {
       return 'successful'
     } else if (response.status === 200 && response.data.order_status === 'failed') {
       return 'failed'
-    } else {
+    } else if (response.status === 200 && response.data.order_status === 'pending') {
       return 'pending'
     }
   } catch (error) {
     console.error('Error:', error)
 
-    return 'failed'
+    return 'error'
   }
 }
 
@@ -101,11 +101,11 @@ const checkOneTime = async () => {
 export default async (req, res) => {
   try {
     if (req.method === 'GET') {
-      checkOneTime()
+    //   checkOneTime()
       if (!isCronRunning) {
-        cron.schedule('* */6 * * * *', checkOneTime)
+        // cron.schedule('* */1 * * * *', checkOneTime)
         isCronRunning = true
-        res.status(200).json({ message: 'Task scheduled to run every 6 minutes' })
+        res.status(200).json({ message: 'Task scheduled to run every 1 minutes' })
       } else {
         res.status(200).json({ message: 'Task is already scheduled.' })
       }

@@ -50,12 +50,13 @@ const ForgotPassword = () => {
     setError(null)
 
     try {
-      const response = await axios.post('/api/auth/forgot-password', values.email)
+      console.log(values.email)
+      const response = await axios.post('/api/auth/forgot-password', { email: values.email })
       setLoading(false)
       router.push('/dashboard')
     } catch (error) {
       console.log(error)
-      setError('Invalid Mobile No. or Password')
+      setError('Invalid Email address')
       setSnackbarOpen(true)
     }
   }

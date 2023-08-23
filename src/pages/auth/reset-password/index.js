@@ -17,6 +17,7 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -32,6 +33,7 @@ const ResetPassword = () => {
     setError(null)
 
     const resetToken = router.query.token
+    console.log(resetToken)
 
     try {
       const response = await axios.post('/api/auth/reset-password', {
@@ -40,7 +42,11 @@ const ResetPassword = () => {
       })
 
       setLoading(false)
-      router.push('/auth/login')
+      setSuccessMessage('Password updated successfully.')
+      setSnackbarOpen(true)
+      setTimeout(() => {
+        router.push('/auth/login')
+      }, 2500)
     } catch (error) {
       console.log(error)
       setError('Invalid Token or Password')
@@ -116,11 +122,16 @@ const ResetPassword = () => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        
       >
-        <Alert onClose={handleSnackbarClose} severity='error' variant='filled'  sx={{ width: '100%' }}>
-          {error || 'An unknown error occurred'}
-        </Alert>
+        {error ? (
+          <Alert onClose={handleSnackbarClose} severity='error' variant='filled' sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        ) : (
+          <Alert onClose={handleSnackbarClose} severity='success' variant='filled' sx={{ width: '100%' }}>
+            {successMessage}
+          </Alert>
+        )}
       </Snackbar>
     </Box>
   )

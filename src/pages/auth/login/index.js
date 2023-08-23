@@ -30,7 +30,6 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { Snackbar, Alert } from '@mui/material'
 
-
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
@@ -58,6 +57,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     setSession(null)
+    
+    // loadCaptchaEnginge(6)
   }, [])
 
   const handleMouseDownPassword = event => {
@@ -103,12 +104,7 @@ const LoginPage = () => {
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <StyledLink>
-              <Image
-                src="/images/logo/main-logo.png"
-                alt="Logo"
-                width={150}
-                height={15}
-              />
+              <Image src='/images/logo/main-logo.png' alt='Logo' width={150} height={15} />
               {/* <HeaderTitle variant='h6' sx={{ ml: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle> */}
@@ -219,11 +215,11 @@ const LoginPage = () => {
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Add this line
       >
-        <Alert onClose={handleSnackbarClose} severity='error' variant='filled'  sx={{ width: '100%' }}>
+        <Alert onClose={handleSnackbarClose} severity='error' variant='filled' sx={{ width: '100%' }}>
           {error || 'An unknown error occurred'}
         </Alert>
       </Snackbar>
-    </Box >
+    </Box>
   )
 }
 

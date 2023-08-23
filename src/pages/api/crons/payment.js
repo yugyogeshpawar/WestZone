@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const sendPayouts = async () => {
     await dbConnect();
-
     try {
         const pendingRequests = await WithdrawRequest.find({ status: 'processed' }).lean();
 
@@ -24,7 +23,7 @@ const sendPayouts = async () => {
 
             const response = await axios.post('https://secure.sharkpe.in/api/v1/payout', data, {
                 headers: {
-                    'x-token': 'll7s4cwt1f47bf7878dn4pad' // replace with your actual token
+                    'x-token': 'llgae3o51gh0bf7878ez1eke' // replace with your actual token
                 }
             });
 

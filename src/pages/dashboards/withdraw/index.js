@@ -50,7 +50,7 @@ const WithdrawPage = () => {
   }
 
   const handleWithdraw = () => {
-    if (!amount || parseFloat(amount) <= 100) {
+    if (!amount || parseFloat(amount) < 100) {
       setSnackbarMessage('Please enter min withdraw amount is 100rs.')
       setOpenSnackbar(true)
 
@@ -59,7 +59,7 @@ const WithdrawPage = () => {
     if (user.totalEarning < parseFloat(amount)) {
       setSnackbarMessage('Your Earning is less than withdraw amount.')
       setOpenSnackbar(true)
-
+      
       return
     }
 

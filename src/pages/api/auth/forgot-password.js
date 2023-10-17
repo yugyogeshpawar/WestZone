@@ -3,7 +3,7 @@ import crypto from 'crypto'
 import User from 'src/server/models/user.model'
 import ResetPassword from 'src/server/models/resetPassword.model' // <-- Import the new schema
 import connectDb from 'src/server/utils/dbConnect'
-import sendEmail from 'src/server/utils/sendEmail'
+import nodemailer from 'nodemailer'
 
 connectDb()
 
@@ -29,9 +29,41 @@ export default async (req, res) => {
 
       // Send reset link via email
       const resetUrl = `${req.headers.origin}/auth/reset-password?token=${resetPasswordToken}`
-      console.log(resetUrl);
-      const emailText = `You are receiving this email because you (or someone else) have requested to reset a password for your account. Please click on the link provided or copy and paste this URL into your browser to complete the process: \n\n ${resetUrl} \n\nIf you did not request this, please ignore this email and your password will remain unchanged.`
-      await sendEmail(user.email, resetUrl, emailText)
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.SMTP_EMAIL,
+          pass: process.env.SMTP_PASSWORD
+        }
+      })
+
+      const mailOptions = {
+        from: process.env.SMTP_EMAIL,
+        to: email,
+        subject: '[Promoquo] Reset Password Link',
+        text:
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n' +
+          ` ${resetUrl}\n\n` +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      }
+
+      transporter.sendMail(mailOptions, (err, _) => {
+        if (err) {
+          console.log('ERROR: Unable to send email', err)
+
+          return res.status(550).json({
+            message: 'Failed to send email'
+          })
+        } else {
+          console.log('Email sent successfully')
+
+          return res.status(200).json({
+            message: `Recovery email sent to ${email}`
+          })
+        }
+      })
 
       return res.status(200).json({ success: true, message: 'Reset password link has been sent to your email address' })
     } catch (error) {

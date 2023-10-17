@@ -86,7 +86,7 @@ const LoginPage = () => {
       router.push('/dashboard')
     } catch (error) {
       console.log(error)
-      setError('Invalid Mobile No. or Password')
+      setError('Invalid mobile number or password')
       setSnackbarOpen(true)
     }
   }

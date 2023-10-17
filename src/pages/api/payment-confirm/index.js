@@ -76,6 +76,19 @@ export default async (req, res) => {
         if (!updatedWithdrawRequest) {
           return res.status(404).json({ error: 'Withdraw request not found' })
         }
+
+        // Find the user by email
+        const user = await User.findOne({ username: updatedWithdrawRequest.userName })
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' })
+        }
+
+        // Decrease the walletBalance and totalEarning
+        if (status === 'success') {
+          user.walletBalance -= updatedWithdrawRequest.amount
+          user.totalEarning -= updatedWithdrawRequest.amount
+          await user.save()
+        }
       } else {
         return res.status(400).json({ error: 'Invalid mode' })
       }

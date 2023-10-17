@@ -110,7 +110,6 @@ const InvitationPage = () => {
             Invitation link copied to clipboard!
           </Alert>
         </Snackbar>
-      />
     </Box>
   );
 };

@@ -20,6 +20,10 @@ export default async (req, res) => {
       return res.status(403).json({ message: 'This user is blocked.' })
     }
 
+    if (user.status) {
+      return res.status(403).json({ message: 'User is not allowed to login.' })
+    }
+
     const validPassword = await bcrypt.compare(password, user.password)
 
     if (!validPassword) {

@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export default async function sendEmail(to, url, txt) {
     let transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
+        host: process.env.SMTP_EMAIL,
         port: process.env.SMTP_PORT,
         secure: false, // true for 465, false for other ports
         auth: {

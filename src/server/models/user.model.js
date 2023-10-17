@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     sponsorId: { type: String, default: null }, // Can be null
     sponsorName: { type: String, default: null }, // Can be null
     position: { type: String, default: 'Member' },
-    status: { type: Boolean, default: false }, // Updated to Boolean type
+    status: { type: Boolean, default: true }, // Updated to Boolean type
     kycStatus: { type: Boolean, default: false },
     topupAmt: { type: Number, default: 0 },
     walletBalance: { type: Number, default: 0 },

@@ -26,7 +26,6 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 import { useRouter } from 'next/router'
 
-
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 
@@ -58,7 +57,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const RegisterPage = () => {
   // ** States
-  const router = useRouter();
+  const router = useRouter()
 
   const [values, setValues] = useState({
     mobile: '',
@@ -69,12 +68,11 @@ const RegisterPage = () => {
     sponsorId: ''
   })
 
-
   useEffect(() => {
     if (router.query.ref) {
-      setValues(prevValues => ({ ...prevValues, sponsorId: router.query.ref }));
+      setValues(prevValues => ({ ...prevValues, sponsorId: router.query.ref }))
     }
-  }, [router.query]);
+  }, [router.query])
 
   const [error, setError] = useState(null)
 
@@ -150,7 +148,9 @@ const RegisterPage = () => {
 
         return
       }
-      alert('Registration successful!')
+      alert('Registration successful! and otp sent to your Email.');
+      const responseData = await response.json()
+      router.push(`/auth/verify-otp?userId=${responseData.userId}`)
     } catch (err) {
       // Handle other errors
       setError('An error occurred during registration')
@@ -163,12 +163,7 @@ const RegisterPage = () => {
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <StyledLink>
-              <Image
-                src="/images/logo/main-logo.png"
-                alt="Logo"
-                width={150}
-                height={15}
-              />
+              <Image src='/images/logo/main-logo.png' alt='Logo' width={150} height={15} />
               {/* <HeaderTitle variant='h6' sx={{ ml: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle> */}
